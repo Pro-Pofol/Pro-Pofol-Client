@@ -8,6 +8,8 @@ const config: Config = {
   ],
   theme: {
     colors: {
+      white: "#FFFFFF",
+      black: "#000000",
       blue50: "#EBF0FE",
       blue100: "#D5DFFB",
       blue200: "#ABBFF8",
