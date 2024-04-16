@@ -128,7 +128,12 @@ const config: Config = {
           lineHeight: '16px',
         },
       ],
-    }
+    },
+    screens: {
+      sm: { max: '719px' },
+      md: { min: '720px', max: '1419px' },
+      lg: { min: '1420px' },
+    },
   },
   plugins: [],
 };
