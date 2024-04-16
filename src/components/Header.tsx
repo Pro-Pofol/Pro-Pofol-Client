@@ -10,7 +10,7 @@ export const Header = () => {
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     return (
-        <header className="py-4 px-10 bg-white w-full h-fit flex justify-between items-center relative border-b border-gray100">
+        <header className="py-4 px-10 bg-white w-full h-[72px] flex justify-between items-center relative border-b border-gray100">
             <section className="flex gap-6 items-center transition-all">
                 <div className="relative hidden sm:block w-6 h-6 cursor-pointer" onClick={() => setIsOpen(prev => !prev)}>
                     <div className={`transition-all absolute left-0 w-6 h-0.5 bg-gray700 rounded-full ${isOpen ? 'rotate-45 top-[11px]' : 'rotate-0 top-0'}`} />
