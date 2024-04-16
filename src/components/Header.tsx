@@ -3,10 +3,10 @@ import { PropofolFullLogo, PropofolLogo } from "@/assets"
 import Image from "next/image"
 import { Button } from "."
 import Link from "next/link"
-import { useCallback, useLayoutEffect, useState } from "react"
+import { useState } from "react"
 
 export const Header = () => {
-    const [hasToken, setHasToken] = useState<boolean>(true)
+    const [hasToken, setHasToken] = useState<boolean>(false)
     const [isOpen, setIsOpen] = useState<boolean>(false)
 
     return (
@@ -27,12 +27,16 @@ export const Header = () => {
                     <Link href="/tip">
                         <Button kind="white" size="small" className="sm:w-full sm:flex sm:justify-start">지원서 작성 팁</Button>
                     </Link>
+                    {
+                        hasToken &&
+                        <Button kind="blue" size="small" className="hidden sm:w-full sm:flex sm:justify-start">내 지원서 ∙ 팁 공유</Button>
+                    }
                 </div>
             </section>
             {
                 hasToken ?
                     <section className="flex gap-6 items-center">
-                        <Button kind="blue" size="small">내 지원서 ∙ 팁 공유</Button>
+                        <Button kind="blue" size="small" className="sm:hidden">내 지원서 ∙ 팁 공유</Button>
                         <Image src={PropofolLogo} width={36} height={36} alt="유저 프로필 이미지" className="w-9 h-9 object-cover rounded-full cursor-pointer" />
                     </section>
                     :
