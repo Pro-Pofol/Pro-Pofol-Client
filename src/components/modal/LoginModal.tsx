@@ -29,17 +29,17 @@ export const LoginModal = ({click}:LoginModalType) =>{
                     {/* 로그인 버튼 들들 */}
                     <div className="w-[440px] flex flex-col gap-4 text-BodyMedium">
                         <button className="flex justify-between items-center gap px-8 py-4 bg-white border border-gray200 rounded-xl text-black">
-                            <Google/>
+                            <Google size={28}/>
                             구글 로그인
                             <Google className="opacity-0"/>
                         </button>
                         <button className="flex justify-between items-center px-8 py-4 bg-[#1877F2] rounded-xl text-white">
-                            <Facebook/>
+                            <Facebook size={28}/>
                             페이스북 로그인
                             <Facebook className="opacity-0"/>
                         </button>
                         <button className="flex justify-between items-center px-8 py-4 bg-[#FEE500] rounded-xl text-black">
-                            <Kakaotalk/>
+                            <Kakaotalk size={28}/>
                             카카오 로그인
                             <Kakaotalk className="opacity-0"/>
                         </button>
