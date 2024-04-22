@@ -6,6 +6,7 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/assets/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/assets/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     colors: {
@@ -37,6 +38,7 @@ const config: Config = {
       success: '#2C8C1C',
       coution: '#B75F00',
       critical: '#DB2C36',
+      modalBackground: 'rgba(9, 19, 47, 0.08)',
       attentionBackground: '#EFF4F4',
       successBackground: '#E7FAD4',
       coutionBackground: '#FFF2CC',
