@@ -18,7 +18,11 @@ export const Banner = () => {
                     <div className="flex gap-3 flex-col items-center select-none sm:items-start">
                         <div className="text-headlineMedium flex sm:flex-col sm:text-headlineSmall">
                             <span className="mr-4"><span className="text-blue500">“</span>어떤</span>
-                            <span className="text-blue500">포트폴리오</span>
+                            <div className="relative w-[208px] h-[52px] animate-[titleWidth_9s_infinite_6s] flex justify-center sm:justify-start items-center overflow-hidden text-nowrap">
+                                <span className="text-blue500 animate-[title_9s_infinite] absolute">포트폴리오</span>
+                                <span className="text-blue500 animate-[title_9s_infinite_3s] opacity-0 absolute">자기소개서</span>
+                                <span className="text-blue500 animate-[title_9s_infinite_6s] opacity-0 absolute">이력서</span>
+                            </div>
                             <span>를 원하시나요?<span className="text-blue500">”</span></span>
                         </div>
                         <span className="text-bodyLarge sm:text-bodyMedium text-gray600 break-keep">PROPOFOL에서 수 많은 지원서를 살펴보고, 나만의 지원서를 만들어 보세요.</span>
