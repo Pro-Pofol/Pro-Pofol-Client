@@ -11,7 +11,7 @@ export const LoginModal = ({click}:LoginModalType) =>{
     console.log(modalRef)
 
     return(
-        <section className="w-screen h-screen absolute bg-modalBackground backdrop-blur-sm top-0">
+        <section className="w-screen h-screen absolute bg-modalBackground backdrop-blur-sm top-0 z-40">
             <article ref={modalRef} onClick={(e)=> e.target === modalRef.current ? click(false) : ''} className="w-full h-full flex justify-center items-center">
                 <div className="flex flex-col p-10 rounded-3xl bg-white gap-10">
                     {/* 로그인 설명 및 닫기 버튼 */}

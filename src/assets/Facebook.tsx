@@ -5,7 +5,7 @@ interface PropsType {
   isFill?: boolean
 }
 
-export const Facebook = ({ size = 28, onClick, className = '', isFill }: PropsType) => {
+export const Facebook = ({ size = 24, onClick, className = '', isFill }: PropsType) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
