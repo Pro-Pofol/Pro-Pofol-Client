@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/assets/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
@@ -52,7 +53,7 @@ const config: Config = {
         },
       ],
       headlineMedium: [
-        '648x',
+        '48px',
         {
           fontWeight: 700,
           lineHeight: '52px',
