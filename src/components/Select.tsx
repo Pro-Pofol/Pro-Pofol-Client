@@ -93,14 +93,14 @@ export const Select = ({label, placeholder, change, value, options, err=false}:D
                     direction={isShowOption ? "top" : "bottom"}/>
             </button>
             <ul className={`
-                w-full rounded-xl border border-gray200 p-1
-                ${isShowOption ? 'max-h-none' : 'hidden'}`}
+                transition-all w-full rounded-xl border border-gray200 p-1 bg-white overflow-y-auto
+                ${isShowOption ? 'max-h-[200px]' : 'hidden'}`}
             >
                 {
                     options.map((option)=>{
                         return(
                             <li 
-                                onClick={() => change(option.name)} 
+                                onClick={() => {change(option.name); setShowOptions(false)}} 
                                 key={option.value} 
                                 value={option.name}
                                 className="w-full px-4 py-3 border-b border-gray100 text-bodySmall"
