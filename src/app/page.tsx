@@ -1,5 +1,5 @@
 import { Bulb, Portfolio } from "@/assets";
-import { Banner } from "./main";
+import { MainBanner } from "./main";
 import { Button, SubTitleSection, ApplicationBox, TipBox } from "@/components";
 
 interface ApplicationBoxProps {
@@ -75,7 +75,7 @@ const TipData: TipBoxProps[] = [
 export default function Home() {
   return (
     <main>
-      <Banner />
+      <MainBanner />
       <section className="pt-16 pb-[120px] flex justify-center">
         <div className="flex flex-col gap-16 px-[40px] min-w-0 w-[1280px] box-border">
           <section className="gap-6 flex flex-col w-full">

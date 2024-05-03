@@ -25,36 +25,31 @@ export const Header = () => {
                         <Image src={PropofolFullLogo} alt="프로포폴 로고" height={32} className="h-8 w-auto" />
                     </Link>
                     <div className={`flex gap-1 z-10 sm:absolute sm:top-[calc(100%+1px)] sm:left-0 sm:bg-white sm:w-full sm:flex-col sm:p-2.5 sm:border-b sm:border-gray100 ${isOpen ? 'sm:flex' : 'sm:hidden'}`}>
-                        <Link href="/portfolio">
+                        <Link href="/application">
                             <Button kind="white" size="small" className="sm:w-full sm:flex sm:justify-start">지원서 자료</Button>
                         </Link>
-                        <div className={`flex gap-1 sm:absolute sm:top-[calc(100%+1px)] sm:left-0 sm:bg-white sm:w-full sm:flex-col sm:p-2.5 sm:border-b sm:border-gray100 ${isOpen ? 'sm:flex' : 'sm:hidden'}`}>
-                            <Link href="/portfolio">
-                                <Button kind="white" size="small" className="sm:w-full sm:flex sm:justify-start">지원서 자료</Button>
-                            </Link>
-                            <Link href="/tip">
-                                <Button kind="white" size="small" className="sm:w-full sm:flex sm:justify-start">지원서 작성 팁</Button>
-                            </Link>
-                            {
-                                hasToken &&
-                                <Button kind="blue" size="small" className="hidden sm:w-full sm:flex sm:justify-start">내 지원서 ∙ 팁 공유</Button>
-                            }
-                        </div>
+                        <Link href="/tip">
+                            <Button kind="white" size="small" className="sm:w-full sm:flex sm:justify-start">지원서 작성 팁</Button>
+                        </Link>
+                        {
+                            hasToken &&
+                            <Button kind="blue" size="small" className="hidden sm:w-full sm:flex sm:justify-start">내 지원서 ∙ 팁 공유</Button>
+                        }
                     </div>
                 </section>
-                    {
-                        hasToken ?
-                            <section className="flex gap-6 items-center">
-                                <Button kind="blue" size="small" className="sm:hidden">내 지원서 ∙ 팁 공유</Button>
-                                <Image src={PropofolLogo} width={36} height={36} alt="유저 프로필 이미지" className="w-9 h-9 object-cover rounded-full cursor-pointer" />
-                            </section>
-                            :
-                            <Button kind="primary" size="small" onClick={() => setModal(!modal)}>로그인</Button>
-                    }
+                {
+                    hasToken ?
+                        <section className="flex gap-6 items-center">
+                            <Button kind="blue" size="small" className="sm:hidden">내 지원서 ∙ 팁 공유</Button>
+                            <Image src={PropofolLogo} width={36} height={36} alt="유저 프로필 이미지" className="w-9 h-9 object-cover rounded-full cursor-pointer" />
+                        </section>
+                        :
+                        <Button kind="primary" size="small" onClick={() => setModal(!modal)}>로그인</Button>
+                }
             </header>
             {
                 modal &&
-                <LoginModal click={setModal}/>
+                <LoginModal click={setModal} />
             }
         </>
     )
