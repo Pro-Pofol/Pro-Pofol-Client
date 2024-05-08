@@ -26,7 +26,7 @@ export const SigninModal = ({click}:LoginModalType) =>{
     const [major, setMajor] = useState<string>(""); 
 
     return(
-        <section className="w-screen h-screen absolute bg-modalBackground backdrop-blur-sm top-0 z-40">
+        <section className="w-screen h-screen fixed bg-modalBackground backdrop-blur-sm top-0 z-40">
             <article ref={modalRef} onClick={(e)=> e.target === modalRef.current ? click(false) : ''} className="w-full h-full flex justify-center items-center">
                 <div className="flex flex-col p-10 rounded-3xl bg-white gap-10">
                     {/* 회원가입 설명 및 닫기 버튼 */}

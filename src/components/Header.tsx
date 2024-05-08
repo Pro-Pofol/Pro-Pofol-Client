@@ -5,7 +5,6 @@ import { Button } from "."
 import Link from "next/link"
 import { useState } from "react"
 import { LoginModal } from "./modal/LoginModal"
-import { SigninModal } from "./modal/SigninModal"
 
 export const Header = () => {
     const [hasToken, setHasToken] = useState<boolean>(false)
