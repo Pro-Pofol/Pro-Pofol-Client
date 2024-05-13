@@ -49,7 +49,7 @@ export const Input = ({label, placeholder, name, value, change, err=false}:Input
             className={`flex flex-col w-full gap-[8px] 
                 ${focused ? inputColor.label.selected : err ? inputColor.label.error : value ? inputColor.label.input : inputColor.label.enable}`}
         >
-            {label ?? <label className={`text-bodySmall`}>{label}</label>}
+            {label && <label className={`text-bodySmall`}>{label}</label>}
             <input 
                 className={`text-bodyMedium p-[15px] rounded-xl 
                     ${focused ? inputColor.input.selected : err ? inputColor.input.error : value ? inputColor.input.input : inputColor.input.enable}`}

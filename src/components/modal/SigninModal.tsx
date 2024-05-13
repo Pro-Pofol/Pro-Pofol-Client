@@ -1,4 +1,5 @@
-import { Close, Facebook, Google, Kakaotalk } from "@/assets";
+'use client'
+import { Close } from "@/assets";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { Button } from "../Button";
 import { Input } from "../Input";

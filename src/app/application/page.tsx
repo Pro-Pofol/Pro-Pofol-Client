@@ -1,4 +1,3 @@
-import { ApplicationBox } from "@/components";
 import { ApplicationBanner } from "./Banner";
 import SideBar from "./SideBar";
 import ShowSection from "./ShowSection";

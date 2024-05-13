@@ -27,7 +27,7 @@ export const SideSelect = ({ kind, icon, title, display, value, setValue, open =
                     <Arrow direction={isOpneKind ? 'top' : 'bottom'} className="transition-all" />
                 </div>
             </div>
-            <div className={`flex flex-col pb-3 gap-1 text-labelLarge text-gray800 transition-all overflow-hidden ${isOpneKind ? 'h-[100%]' : 'h-0'}`}>
+            <div className={`flex flex-col gap-1 text-labelLarge text-gray800 transition-all overflow-hidden ${isOpneKind ? 'h-[100%] pb-3' : 'h-0 pb-0'}`}>
                 {
                     display.map(v => (
                         <div className='p-2 flex gap-2 cursor-pointer rounded-xl hover:bg-blue50 transition-all' key={v} onClick={() => setValue(v)}>

@@ -1,14 +1,14 @@
 'use client'
 import { PropofolFullLogo, PropofolLogo } from "@/assets"
 import Image from "next/image"
-import { Button } from "."
+import { ApplicationModal, Button } from "."
 import Link from "next/link"
 import { useState } from "react"
 import { LoginModal } from "./modal/LoginModal"
 import { SigninModal } from "./modal/SigninModal"
 
 export const Header = () => {
-    const [hasToken, setHasToken] = useState<boolean>(false)
+    const [hasToken, setHasToken] = useState<boolean>(true)
     const [isOpen, setIsOpen] = useState<boolean>(false)
     const [modal, setModal] = useState<boolean>(false)
 
@@ -40,7 +40,7 @@ export const Header = () => {
                 {
                     hasToken ?
                         <section className="flex gap-6 items-center">
-                            <Button kind="blue" size="small" className="sm:hidden">내 지원서 ∙ 팁 공유</Button>
+                            <Button kind="blue" size="small" className="sm:hidden" onClick={() => setModal(!modal)}>내 지원서 ∙ 팁 공유</Button>
                             <Image src={PropofolLogo} width={36} height={36} alt="유저 프로필 이미지" className="w-9 h-9 object-cover rounded-full cursor-pointer" />
                         </section>
                         :
@@ -49,7 +49,12 @@ export const Header = () => {
             </header>
             {
                 modal &&
-                <LoginModal click={setModal} />
+                (
+                    hasToken ?
+                        <ApplicationModal click={setModal} />
+                        :
+                        <LoginModal click={setModal} />
+                )
             }
         </>
     )
