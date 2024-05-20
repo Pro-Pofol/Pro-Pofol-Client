@@ -3,7 +3,7 @@ import { Close } from "@/assets"
 interface SubTitleSectionProps {
     title: string
     subTitle: string
-    icon: React.ReactNode
+    icon?: React.ReactNode
     onClick?: () => void
 }
 
@@ -27,17 +27,17 @@ interface SubTitleSectionProps {
  */
 export const SubTitleSection = ({ title, subTitle, icon, onClick }: SubTitleSectionProps) => {
     return (
-        <section className={`flex flex-col gap-3 break-keep ${onClick ? 'w-full' : 'w-fit'}`}>
+        <section className={`flex flex-col break-keep ${icon ? 'gap-3' : 'gap-2'} ${onClick ? 'w-full' : 'w-fit'}`}>
             <div className="flex justify-between">
-                <div className="p-3 border border-blue100 bg-blue50 text-blue500 rounded-xl">{icon}</div>
+                {icon && <div className="p-3 border border-blue100 bg-blue50 text-blue500 rounded-xl">{icon}</div>}
                 {
                     onClick &&
                     <Close size={28} className="text-black" onClick={onClick} />
                 }
             </div>
-            <div className="flex flex-col gap-1">
-                <span className={onClick ? 'text-titleMedium' : 'text-titleLarge'}>{title}</span>
-                <span className="text-bodyMedium">{subTitle}</span>
+            <div className={`flex flex-col gap-1 ${icon ? 'gap-1' : 'gap-2'}`}>
+                <span className={onClick ? icon ? 'text-titleMedium' : 'text-headlineSmall' : 'text-titleLarge'}>{title}</span>
+                <span className={`${(onClick && icon) ? 'text-bodySmall' : 'text-bodyMedium'} ${onClick ? 'text-gray600' : 'text-black'}`}>{subTitle}</span>
             </div>
         </section>
     )
