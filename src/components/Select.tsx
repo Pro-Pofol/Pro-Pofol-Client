@@ -98,7 +98,7 @@ export const Select = ({ label, placeholder, change, value, options, err = false
                     direction={isShowOption ? "top" : "bottom"} />
             </button>
             <ul className={`
-                transition-all w-full rounded-xl border border-gray200 p-1 bg-white overflow-y-auto absolute top-16
+                transition-all w-full rounded-xl absolute ${label ? 'top-[100px]' : 'top-[64px]'} border border-gray200 p-1 bg-white overflow-y-auto
                 ${isShowOption ? 'max-h-[200px]' : 'hidden'}`}
             >
                 {
