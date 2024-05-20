@@ -62,14 +62,17 @@ export const Select = ({label, placeholder, change, value, options, err=false}:D
 
     return(
         <div className={`flex flex-col w-full gap-[8px] relative`}>
-            <label
-                className={`transition-all text-bodyMedium
-                    ${focused ? dropdownColor.label.selected : 
-                        err ? dropdownColor.label.error :
-                        value ? dropdownColor.label.dropdown :
-                        dropdownColor.label.enable}
-                    `}
-            >{label}</label>
+            {
+                label &&
+                <label
+                    className={`transition-all text-bodyMedium
+                        ${focused ? dropdownColor.label.selected : 
+                            err ? dropdownColor.label.error :
+                            value ? dropdownColor.label.dropdown :
+                            dropdownColor.label.enable}
+                        `}
+                >{label}</label>
+            }
             <button 
                 className={`
                     transition-all p-[15px] text-bodyMedium rounded-xl
@@ -93,7 +96,7 @@ export const Select = ({label, placeholder, change, value, options, err=false}:D
                     direction={isShowOption ? "top" : "bottom"}/>
             </button>
             <ul className={`
-                transition-all w-full rounded-xl border border-gray200 p-1 bg-white overflow-y-auto
+                transition-all w-full rounded-xl absolute ${label ? 'top-[100px]' : 'top-[64px]'} border border-gray200 p-1 bg-white overflow-y-auto
                 ${isShowOption ? 'max-h-[200px]' : 'hidden'}`}
             >
                 {

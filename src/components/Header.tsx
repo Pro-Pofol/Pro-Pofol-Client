@@ -1,4 +1,5 @@
 'use client'
+
 import { PropofolFullLogo, PropofolLogo } from '@/assets'
 import Image from 'next/image'
 import { Button } from '.'
