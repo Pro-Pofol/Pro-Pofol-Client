@@ -1,7 +1,14 @@
 'use client'
 
 import { Arrow } from '@/assets'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, {
+  Dispatch,
+  MouseEvent,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 interface DropdownItemsType {
   value: string
@@ -13,7 +20,7 @@ interface DropdownType {
   placeholder: string
   value: string
   name?: string
-  change: Dispatch<SetStateAction<string>>
+  change: Dispatch<SetStateAction<string>> | ((value: string) => void)
   options: DropdownItemsType[]
   err?: boolean
 }
@@ -65,24 +72,40 @@ export const Select = ({
   options,
   err = false,
 }: DropdownType) => {
+  const SelectContainer = useRef<HTMLDivElement | null>(null)
   const [isShowOption, setShowOptions] = useState<boolean>(false)
   const [focused, setFocused] = useState<boolean>(false)
 
+  useEffect(() => {
+    const clickEvent = (event: globalThis.MouseEvent) => {
+      if (!SelectContainer.current?.contains(event.target as HTMLElement)) {
+        setShowOptions(false)
+      }
+    }
+
+    document.addEventListener('click', clickEvent)
+
+    return () => document.removeEventListener('mouseup', clickEvent)
+  }, [])
+
   return (
-    <div className={`flex flex-col w-full gap-[8px] relative`}>
+    <div
+      ref={SelectContainer}
+      className={`flex flex-col w-full gap-[8px] relative`}
+    >
       {label && (
         <label
           className={`transition-all text-bodyMedium
-                        ${
-                          focused
-                            ? dropdownColor.label.selected
-                            : err
-                              ? dropdownColor.label.error
-                              : value
-                                ? dropdownColor.label.dropdown
-                                : dropdownColor.label.enable
-                        }
-                        `}
+                    ${
+                      focused
+                        ? dropdownColor.label.selected
+                        : err
+                          ? dropdownColor.label.error
+                          : value
+                            ? dropdownColor.label.dropdown
+                            : dropdownColor.label.enable
+                    }
+                    `}
         >
           {label}
         </label>

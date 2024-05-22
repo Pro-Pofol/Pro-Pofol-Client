@@ -2,7 +2,7 @@
 
 import { PropofolFullLogo, PropofolLogo } from '@/assets'
 import Image from 'next/image'
-import { Button } from '.'
+import { ApplicationModal, Button } from '.'
 import Link from 'next/link'
 import { useState } from 'react'
 import { LoginModal } from './modal/LoginModal'
@@ -93,7 +93,10 @@ export const Header = () => {
           </Button>
         )}
       </header>
-      {modal && <LoginModal click={setModal} />}
+      ( hasToken ?
+      <ApplicationModal click={setModal} />
+      :
+      <LoginModal click={setModal} />)
     </>
   )
 }
