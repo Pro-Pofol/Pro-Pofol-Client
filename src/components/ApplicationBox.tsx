@@ -1,4 +1,7 @@
+'use client'
+
 import { dateToString } from "@/utils"
+import { useRouter } from "next/navigation"
 
 interface ApplicationBoxProps {
     tag: keyof typeof tagColor
@@ -26,8 +29,11 @@ const tagColor = {
 ```
  */
 export const ApplicationBox = ({ tag, title, name, date, mainMajor, subMajor }: ApplicationBoxProps) => {
+    
+    const router = useRouter();
+
     return (
-        <div className="flex flex-col w-full p-8 gap-3 border border-gray100 bg-white rounded-3xl cursor-pointer">
+        <div onClick={()=>router.push('/application/1')} className="flex flex-col w-full p-8 gap-3 border border-gray100 bg-white rounded-3xl cursor-pointer">
             <div className={`px-[11px] w-fit h-fit py-1 rounded-full text-labelLarge ${tagColor[tag]}`}>{tag}</div>
             <div className="flex flex-col gap-2">
                 <span className="text-titleMedium text-black truncate">{title}</span>
