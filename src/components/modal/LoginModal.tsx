@@ -8,7 +8,6 @@ interface LoginModalType{
 export const LoginModal = ({click}:LoginModalType) =>{
 
     const modalRef = useRef<HTMLDivElement>(null)
-    console.log(modalRef)
 
     return(
         <section className="w-screen h-screen fixed bg-modalBackground backdrop-blur-sm top-0 z-40">
