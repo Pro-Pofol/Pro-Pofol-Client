@@ -1,9 +1,10 @@
+'use client'
 import { DecorationImg_1, DecorationImg_2, DecorationImg_3, DecorationImg_4, DecorationImg_5, DecorationImg_6, DecorationImg_7 } from "@/assets"
 import { Button } from "@/components"
 import Image from "next/image"
 import './main.css'
 
-export const Banner = () => {
+export const MainBanner = () => {
     return (
         <section className="w-full h-[480px] relative border-b-2 border-gray100 bg-gray50 overflow-hidden">
             <Image src={DecorationImg_1} alt="Banner 이미지" width={164} height={240} className="absolute left-10 top-[-168px] object-cover rounded-3xl w-[164px] h-[240px] transition-all animate-[downToUp_1s]" />

@@ -1,3 +1,4 @@
+'use client'
 import { Close, Facebook, Google, Kakaotalk } from "@/assets";
 import { Dispatch, SetStateAction, useRef } from "react";
 
