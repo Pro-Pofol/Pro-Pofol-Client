@@ -1,13 +1,12 @@
-'use client'
-
-import { SignupModal } from '@/components'
-import { useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
+import { Signup } from './Signup'
 
 export default function SignupPage() {
-  const params = useSearchParams().get('kind')
   return (
     <main className="w-full">
-      <SignupModal kind={params || 'google'} />
+      <Suspense fallback={<p>loading..</p>}>
+        <Signup />
+      </Suspense>
     </main>
   )
 }
