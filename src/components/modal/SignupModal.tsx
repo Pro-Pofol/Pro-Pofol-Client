@@ -6,9 +6,9 @@ import { Button } from '../Button'
 import { Input } from '../Input'
 import { Select } from '../Select'
 import Link from 'next/link'
-import { AuthSignupType } from '@/types'
+import { AuthKindType, AuthSignupType } from '@/types'
 import { authSignup } from '@/services'
-import { getCookie } from '@/utils'
+import { getCookie, loginRedirect } from '@/utils'
 
 const option = [
   { value: '1', name: 'Backend' },
@@ -34,10 +34,9 @@ export const SignupModal = ({ kind }: { kind: string }) => {
       major: major,
     }
     const access_token = getCookie('Access_Token')
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-expect-error
-    const token = await authSignup(kind, access_token, signupJson)
-    console.log(token)
+    await authSignup(kind as AuthKindType, access_token || '', signupJson).then(
+      () => loginRedirect(kind as AuthKindType),
+    )
   }
 
   return (
