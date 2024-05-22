@@ -1,0 +1,10 @@
+export type MajorType =
+  | 'Backend'
+  | 'Frontend'
+  | 'iOS'
+  | 'Android'
+  | 'DevOps'
+  | 'Design'
+  | 'AI'
+  | 'CrossPlatform'
+  | 'Blockchain'
