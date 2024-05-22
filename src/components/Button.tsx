@@ -20,6 +20,10 @@ const ButtonColor = {
         enabled: 'transition-all bg-blue50 text-blue500 rounded-xl border border-blue100 hover:bg-blue100 text-blue500 border border-blue200',
         disabled: 'bg-gray100 text-gray300 rounded-xl'
     },
+    red:{
+        enabled: 'transition-all bg-criticalBackground text-critical rounded-xl border border-criticalMiddle hover:bg-critical hover:border-critical hover:text-criticalBackground',
+        disabled: 'bg-gray100 text-gray300 rounded-xl'
+    },
     gray:{
         enabled: 'transition-all bg-gray100 text-gray900 rounded-xl hover:bg-gray200',
         disabled: 'bg-gray100 text-gray300 rounded-xl'

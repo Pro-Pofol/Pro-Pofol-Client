@@ -42,6 +42,7 @@ const config: Config = {
       successBackground: '#E7FAD4',
       coutionBackground: '#FFF2CC',
       criticalBackground: '#FFE6D8',
+      criticalMiddle: '#F3AAAA',
       transparent: 'transparent',
       current: 'currentColor'
     },
