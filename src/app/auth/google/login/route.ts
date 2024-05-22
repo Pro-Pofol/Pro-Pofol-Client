@@ -23,9 +23,19 @@ export async function GET(request: Request) {
     })
       .then((response) => response.json())
       .then(async (data) => {
-        console.log(data)
         return await authLogin('google', data.access_token)
-          .then((response) => NextResponse.redirect(requestUrl.origin))
+          .then((response) => {
+            const setCookie = response.headers['set-cookie']
+            cookies().set({
+              name: 'RF-TOKEN',
+              value: setCookie?.[0].split(';')[0].split('=')[1] as string,
+              httpOnly: true,
+              secure: true,
+              path: '/',
+              sameSite: 'strict',
+            })
+            return NextResponse.redirect(requestUrl.origin)
+          })
           .catch((error) => {
             cookies().set('Access_Token', data.access_token)
             return NextResponse.redirect(
