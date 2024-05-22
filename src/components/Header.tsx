@@ -93,10 +93,12 @@ export const Header = () => {
           </Button>
         )}
       </header>
-      ( hasToken ?
-      <ApplicationModal click={setModal} />
-      :
-      <LoginModal click={setModal} />)
+      {modal &&
+        (hasToken ? (
+          <ApplicationModal click={setModal} />
+        ) : (
+          <LoginModal click={setModal} />
+        ))}
     </>
   )
 }

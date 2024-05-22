@@ -1,3 +1,3 @@
 export * from './LoginModal'
-export * from './SigninModal'
+export * from './SignupModal'
 export * from './ApplicationModal'
