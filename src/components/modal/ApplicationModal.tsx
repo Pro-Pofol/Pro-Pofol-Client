@@ -88,7 +88,7 @@ export const ApplicationModal = ({ click }: ApplicationModalType) => {
                                 dataFile ?
                                     <div className="text-bodySmall text-blue500 inline">
                                         {/* 이거 왜 말줄임 안됨? */}
-                                        <span className='inline'>{dataFile.name.split('.')[0] + dataFile.name.split('.')[0]}</span>
+                                        <span className='inline'>{dataFile.name.split('.')[0]}</span>
                                         <span className="inline w-fit">{`.${dataFile.name.split('.')[1]} (${fileSizeToString(dataFile.size)})`}</span>
                                     </div>
                                     :
