@@ -45,6 +45,7 @@ const ApplyData: ApplicationBoxProps[] = [
 
 interface TipBoxProps {
   title: string;
+  content: string;
   name: string;
   date: string;
 }
@@ -52,21 +53,25 @@ interface TipBoxProps {
 const TipData: TipBoxProps[] = [
   {
     title: '포트폴리오 만들 때 주의할 점',
+    content: '포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!',
     name: '이강혁',
     date: '2024-04-16'
   },
   {
     title: '자기소개서는 이렇게',
+    content: '포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!',
     name: '강진현',
     date: '2024-04-10'
   },
   {
     title: '이럭서에 뭘 넣어야 할지 모르겠다면?',
+    content: '포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!',
     name: '임태곤',
     date: '2024-04-06'
   },
   {
     title: '합격하는 포트폴리오',
+    content: '포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!포트폴리오!! 비상!!!!',
     name: '최승우',
     date: '2023-04-18',
   },

@@ -23,7 +23,7 @@ const tagColor = {
  * 사용 예시
  * ```
     <ApplicationBox tag="포트폴리오" title="제목" name="유저이름" mainMajor="Frontend" />
- ```
+```
  */
 export const ApplicationBox = ({ tag, title, name, date, mainMajor, subMajor }: ApplicationBoxProps) => {
     return (

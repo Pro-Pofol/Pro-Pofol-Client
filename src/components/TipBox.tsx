@@ -1,10 +1,10 @@
 import { dateToString } from "@/utils";
 
 interface TipBoxProps {
-    title: string;
-    content: string;
-    name: string;
-    date: string;
+    title: string
+    content: string
+    name: string
+    date: string
 }
 
 /**
@@ -13,7 +13,7 @@ interface TipBoxProps {
  * 사용 예시
  * ```
     <TipBox title="제목" content="미리보기 내용" name="유저 이름" date="날짜" />
- ```
+```
  */
 export const TipBox = ({ title, content, name, date }: TipBoxProps) => {
     return (

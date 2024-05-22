@@ -4,10 +4,10 @@ import { TipBox } from "@/components";
 import { useState } from "react";
 
 interface TipBoxProps {
-    title: string;
-    content: string;
-    name: string;
-    date: string;
+    title: string
+    content: string
+    name: string
+    date: string
 }
 
 const TipData: TipBoxProps[] = [
@@ -54,7 +54,10 @@ export const ShowSection = () =>{
             <div className="grid grid-cols-3 w-[70%] min-w-[800px] h-fit gap-x-3 gap-y-6 px-10">
                 {
                     TipData.map((item, index)=>
-                        <TipBox {...item} key={index} />
+                        <TipBox 
+                            key={index} 
+                            {...item}
+                        />
                     )
                 }
             </div>
