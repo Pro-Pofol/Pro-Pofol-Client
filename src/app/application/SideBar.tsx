@@ -28,7 +28,6 @@ const SideBar = () => {
     const [selectedMajor, setSelectedMajor] = useState<Partial<Record<MajorType, boolean>>>({})
     const [searchWord, setSearchWord] = useState<string>('')
     const router = useRouter()
-    const pathName = usePathname()
     const searchParams = useSearchParams()
 
     const changeParams = useCallback((name: 'kind' | 'major' | 'word') => (value: string) => {

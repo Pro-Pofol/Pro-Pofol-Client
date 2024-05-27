@@ -49,9 +49,6 @@ export const Header = () => {
           <div
             className={`flex gap-1 z-10 sm:absolute sm:top-[calc(100%+1px)] sm:left-0 sm:bg-white sm:w-full sm:flex-col sm:p-2.5 sm:border-b sm:border-gray100 ${isOpen ? 'sm:flex' : 'sm:hidden'}`}
           >
-            <div
-              className={`flex gap-1 sm:absolute sm:top-[calc(100%+1px)] sm:left-0 sm:bg-white sm:w-full sm:flex-col sm:p-2.5 sm:border-b sm:border-gray100 ${isOpen ? 'sm:flex' : 'sm:hidden'}`}
-            >
               <Link href="/application">
                 <Button
                   kind="white"
@@ -81,7 +78,6 @@ export const Header = () => {
                 </Button>
               )}
             </div>
-          </div>
         </section>
         {hasToken ? (
           <section className="flex gap-6 items-center">

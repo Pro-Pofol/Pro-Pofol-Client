@@ -4,13 +4,18 @@ import { MajorType } from "@/types"
 
 interface PostFileRequest {
 	title: string
-	type: ApplicationFileType,
-	major: MajorType[]
+	type: ApplicationFileType
+	major: MajorType
 }
 
-// 미완성
 export const postFile = async (accessToken: string, data: PostFileRequest, file: File) => {
-	return await instance.post('/post/link', data,
+	const formData = new FormData()
+	formData.append('title', data.title)
+	formData.append('type', data.type)
+	formData.append('major', data.major)
+	formData.append('file', file)
+
+	return await instance.post('/post/file', data,
 		{
 			headers: {
 				Authorization: `Bearer ${accessToken}`

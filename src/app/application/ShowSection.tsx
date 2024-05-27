@@ -1,61 +1,71 @@
 'use client'
 import { ApplicationBox } from "@/components"
-import { useState } from "react"
+import { ApplicationFileType, ApplicationPreviewType, MajorType } from "@/types"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 
-interface ApplicationBoxProps {
-    tag: "포트폴리오" | "자기소개서" | "이력서"
-    title: string
-    name: string
-    date: string
-    mainMajor?: string
-    subMajor?: string
-}
-
-const ApplyData: ApplicationBoxProps[] = [
+const ApplyData: ApplicationPreviewType[] = [
     {
-        tag: '포트폴리오',
-        title: '개인적으로 완벽한 포트폴리오',
-        name: '이강혁',
-        date: '2024-04-16',
-        mainMajor: 'Frontend',
-        subMajor: 'Backend'
+        "post_id": 1,
+        "post_post_type": "Portfolio",
+        "post_title": "엄청나고 위대한 포트폴리오 자료",
+        "post_major": "Backend",
+        "post_created_at": "2024-05-27T02:48:52.347Z",
+        "user_oauth_id": "110159413387878573726"
     },
     {
-        tag: '자기소개서',
-        title: '자기소개의 참된 예를 잘 보여주는 글',
-        name: '강진현',
-        date: '2023-04-16',
-        mainMajor: 'Frontend'
+        "post_id": 2,
+        "post_post_type": "Portfolio",
+        "post_title": "야호",
+        "post_major": "Frontend",
+        "post_created_at": "2024-05-27T04:26:28.899Z",
+        "user_oauth_id": "107359038156703139645"
     },
     {
-        tag: '이력서',
-        title: '올바른 형식의 이력서 예시',
-        name: '임태곤',
-        date: '2024-04-06'
-    },
-    {
-        tag: '포트폴리오',
-        title: '개인적으로 완벽한 포트폴리오',
-        name: '이강혁',
-        date: '2023-04-18',
-        mainMajor: 'Frontend',
-        subMajor: 'Backend'
+        "post_id": 3,
+        "post_post_type": "Portfolio",
+        "post_title": "테스트...",
+        "post_major": "Frontend",
+        "post_created_at": "2024-05-27T04:47:00.694Z",
+        "user_oauth_id": "107359038156703139645"
     }
 ]
 
+const majorData: MajorType[] = ['Frontend', 'Backend', 'Android', 'iOS', 'CrossPlatform', 'AI', 'DevOps', 'Design', 'Game', 'Blockchain']
+
 const ShowSection = () => {
     const [orderType, setOrderType] = useState<'first' | 'last'>('first')
+    const [selectedKind, setSelectedKind] = useState<'everything' | ApplicationFileType>('everything')
+    const [selectedMajor, setSelectedMajor] = useState<Partial<Record<MajorType, boolean>>>({})
+    const [searchWord, setSearchWord] = useState<string>('')
+    const searchParams = useSearchParams()
+
+    useEffect(() => {
+        if (searchParams.has('word')) {
+            setSearchWord(searchParams.get('word') || '')
+        }
+        if (searchParams.has('kind') && ['everything', 'Portfolio', 'PersonalStatement', 'Resume'].includes(searchParams.get('kind') as string)) {
+            setSelectedKind(searchParams.get('kind') as ('everything' | ApplicationFileType))
+        }
+        if (searchParams.has('major') && majorData.some(v => searchParams.getAll('major').includes(v))) {
+            setSelectedMajor(majorData.filter(v => searchParams.getAll('major').includes(v)).reduce((acc, v) => ({ ...acc, [v]: true }), {}))
+        }
+    }, [searchParams])
+
     return (
         <section className="relative pb-[120px] w-full">
-            <div className="py-6 px-10 flex justify-between items-center sticky bg-white top-0 left-0 w-full h-fit">
-                <span className="text-bodyLarge text-black">182개의 지원서 자료</span>
-                <div className="p-1 gap-0.5 flex rounded-full border h-12 border-gray200 bg-gray50 text-bodySmall relative text-gray600">
+            <div className="py-6 px-10 flex justify-between items-center sticky bg-white top-0 left-0 w-full h-fit flex-wrap gap-2">
+                <div className="flex gap-x-3 gap-y-2 flex-wrap break-keep">
+                    {searchWord && <span className="text-bodyLarge text-blue500">“{searchWord}”에 대한</span>}
+                    <span className="text-bodyLarge text-black">182개의 지원서 자료</span>
+                </div>
+                <div className="p-1 gap-0.5 flex rounded-full border h-12 border-gray200 bg-gray50 text-bodySmall relative text-gray600 ml-auto">
                     <div className={`absolute top-[2px] ${orderType === 'first' ? 'left-[3px]' : 'left-[80px]'} border border-gray100 bg-white py-2 px-4 text-transparent rounded-full transition-all`}>{orderType === 'first' ? '최신순' : '오래된순'}</div>
                     <span className={`transition-all py-2 px-4 z-10 cursor-pointer ${orderType === 'first' ? 'text-blue500' : 'text-gray600'}`} onClick={() => setOrderType('first')}>최신순</span>
                     <span className={`transition-all py-2 px-4 z-10 cursor-pointer ${orderType === 'last' ? 'text-blue500' : 'text-gray600'}`} onClick={() => setOrderType('last')}>오래된순</span>
                 </div>
             </div>
-            <section className="grid grid-cols-3 gap-x-3 gap-y-6 px-10">
+            <section className="grid grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-x-3 gap-y-6 px-10">
                 {
                     ApplyData.map((item, index) =>
                         <ApplicationBox
