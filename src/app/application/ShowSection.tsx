@@ -1,7 +1,7 @@
 'use client'
 import { ApplicationBox } from "@/components"
 import { ApplicationFileType, ApplicationPreviewType, MajorType } from "@/types"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
 const ApplyData: ApplicationPreviewType[] = [
