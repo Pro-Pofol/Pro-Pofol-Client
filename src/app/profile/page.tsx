@@ -92,9 +92,11 @@ export default function ProfilePage() {
           <Button kind="gray" size="small">
             로그아웃
           </Button>
-          <Button kind="blue" size="small">
-            정보 수정하기
-          </Button>
+          <Link href="/profile/edit">
+            <Button kind="blue" size="small">
+              정보 수정하기
+            </Button>
+          </Link>
         </div>
         <article className="flex flex-col gap-6 w-full">
           <h5 className="text-titleSmall">기본 정보</h5>
