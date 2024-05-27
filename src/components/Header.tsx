@@ -4,13 +4,21 @@ import { PropofolFullLogo, PropofolLogo } from '@/assets'
 import Image from 'next/image'
 import { ApplicationModal, Button } from '.'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LoginModal } from './modal/LoginModal'
+import { getCookie } from '@/utils'
+import { useSearchParams } from 'next/navigation'
 
 export const Header = () => {
   const [hasToken, setHasToken] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modal, setModal] = useState<boolean>(false)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+   const token = getCookie('access_token')
+   setHasToken(!!token)
+  }, [searchParams])
 
   return (
     <>
@@ -44,7 +52,7 @@ export const Header = () => {
             <div
               className={`flex gap-1 sm:absolute sm:top-[calc(100%+1px)] sm:left-0 sm:bg-white sm:w-full sm:flex-col sm:p-2.5 sm:border-b sm:border-gray100 ${isOpen ? 'sm:flex' : 'sm:hidden'}`}
             >
-              <Link href="/portfolio">
+              <Link href="/application">
                 <Button
                   kind="white"
                   size="small"
@@ -67,6 +75,7 @@ export const Header = () => {
                   kind="blue"
                   size="small"
                   className="hidden sm:w-full sm:flex sm:justify-start"
+                  onClick={() => setModal(!modal)}
                 >
                   내 지원서 ∙ 팁 공유
                 </Button>
@@ -76,7 +85,7 @@ export const Header = () => {
         </section>
         {hasToken ? (
           <section className="flex gap-6 items-center">
-            <Button kind="blue" size="small" className="sm:hidden">
+            <Button kind="blue" size="small" className="sm:hidden" onClick={() => setModal(!modal)}>
               내 지원서 ∙ 팁 공유
             </Button>
             <Image

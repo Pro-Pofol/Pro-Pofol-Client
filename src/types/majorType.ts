@@ -5,6 +5,7 @@ export type MajorType =
   | 'Android'
   | 'DevOps'
   | 'Design'
+  | 'Game'
   | 'AI'
   | 'CrossPlatform'
   | 'Blockchain'
