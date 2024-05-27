@@ -4,7 +4,7 @@ interface PropsType {
   className?: string
 }
 
-export const Link = ({ size = 24, onClick, className = '' }: PropsType) => {
+export const Linking = ({ size = 24, onClick, className = '' }: PropsType) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
