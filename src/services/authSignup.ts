@@ -14,6 +14,9 @@ export const authSignup = async (
     },
     data: data,
   })
-    .then((response) => response.data)
+    .then((response) => {
+      console.log(response.headers)
+      return response.data
+    })
     .catch((error) => console.log(error))
 }
