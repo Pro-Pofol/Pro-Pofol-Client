@@ -4,7 +4,7 @@ import { ApplicationPreviewType } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const applicationData: ApplicationPreviewType[] = [
+export const applicationData: ApplicationPreviewType[] = [
   {
     post_id: 0,
     post_title: '개인적으로 완벽한 포트폴리오',
@@ -39,7 +39,7 @@ const applicationData: ApplicationPreviewType[] = [
   },
 ]
 
-const tipData = [
+export const tipData = [
   {
     title: '지원서 작성 팁 3가지',
     content:
@@ -123,7 +123,10 @@ export default function ProfilePage() {
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 자료</h5>
-            <Link href="#" className="flex items-center text-gray600 group">
+            <Link
+              href="/profile/application"
+              className="flex items-center text-gray600 group"
+            >
               <p className="text-labelLarge">더보기</p>
               <Arrow
                 direction="right"
@@ -142,7 +145,10 @@ export default function ProfilePage() {
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 팁</h5>
-            <Link href="#" className="flex items-center text-gray600 group">
+            <Link
+              href="/profile/tip"
+              className="flex items-center text-gray600 group"
+            >
               <p className="text-labelLarge">더보기</p>
               <Arrow
                 direction="right"
