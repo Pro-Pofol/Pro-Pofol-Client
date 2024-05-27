@@ -4,13 +4,21 @@ import { PropofolFullLogo, PropofolLogo } from '@/assets'
 import Image from 'next/image'
 import { ApplicationModal, Button } from '.'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { LoginModal } from './modal/LoginModal'
+import { getCookie } from '@/utils'
+import { usePathname } from 'next/navigation'
 
 export const Header = () => {
   const [hasToken, setHasToken] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modal, setModal] = useState<boolean>(false)
+  const pathName = usePathname()
+
+  useEffect(() => {
+    const token = getCookie('access_token')
+    setHasToken(!!token)
+  }, [pathName])
 
   return (
     <>
@@ -41,42 +49,39 @@ export const Header = () => {
           <div
             className={`flex gap-1 z-10 sm:absolute sm:top-[calc(100%+1px)] sm:left-0 sm:bg-white sm:w-full sm:flex-col sm:p-2.5 sm:border-b sm:border-gray100 ${isOpen ? 'sm:flex' : 'sm:hidden'}`}
           >
-            <div
-              className={`flex gap-1 sm:absolute sm:top-[calc(100%+1px)] sm:left-0 sm:bg-white sm:w-full sm:flex-col sm:p-2.5 sm:border-b sm:border-gray100 ${isOpen ? 'sm:flex' : 'sm:hidden'}`}
-            >
-              <Link href="/portfolio">
-                <Button
-                  kind="white"
-                  size="small"
-                  className="sm:w-full sm:flex sm:justify-start"
-                >
-                  지원서 자료
-                </Button>
-              </Link>
-              <Link href="/tip">
-                <Button
-                  kind="white"
-                  size="small"
-                  className="sm:w-full sm:flex sm:justify-start"
-                >
-                  지원서 작성 팁
-                </Button>
-              </Link>
-              {hasToken && (
-                <Button
-                  kind="blue"
-                  size="small"
-                  className="hidden sm:w-full sm:flex sm:justify-start"
-                >
-                  내 지원서 ∙ 팁 공유
-                </Button>
-              )}
-            </div>
+            <Link href="/application">
+              <Button
+                kind="white"
+                size="small"
+                className="sm:w-full sm:flex sm:justify-start"
+              >
+                지원서 자료
+              </Button>
+            </Link>
+            <Link href="/tip">
+              <Button
+                kind="white"
+                size="small"
+                className="sm:w-full sm:flex sm:justify-start"
+              >
+                지원서 작성 팁
+              </Button>
+            </Link>
+            {hasToken && (
+              <Button
+                kind="blue"
+                size="small"
+                className="hidden sm:w-full sm:flex sm:justify-start"
+                onClick={() => setModal(!modal)}
+              >
+                내 지원서 ∙ 팁 공유
+              </Button>
+            )}
           </div>
         </section>
         {hasToken ? (
           <section className="flex gap-6 items-center">
-            <Button kind="blue" size="small" className="sm:hidden">
+            <Button kind="blue" size="small" className="sm:hidden" onClick={() => setModal(!modal)}>
               내 지원서 ∙ 팁 공유
             </Button>
             <Image

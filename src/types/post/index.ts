@@ -1,0 +1,1 @@
+export { type PostLinkType } from './postLink.type'
