@@ -24,7 +24,9 @@ export async function GET(request: Request) {
       .then((response) => response.json())
       .then(async (data) => {
         return await authLogin('google', data.access_token)
-          .then(() => NextResponse.redirect(requestUrl.origin))
+          .then(() =>
+            NextResponse.redirect(`${process.env.NEXT_PUBLIC_ORIGIN_URL}`),
+          )
           .catch((error) => {
             cookies().set('Access_Token', data.access_token)
             return NextResponse.redirect(
