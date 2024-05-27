@@ -123,12 +123,16 @@ export default function ProfilePage() {
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 자료</h5>
-            <Link href="#" className="flex items-center text-gray600">
+            <Link href="#" className="flex items-center text-gray600 group">
               <p className="text-labelLarge">더보기</p>
-              <Arrow direction="right" size={16} />
+              <Arrow
+                direction="right"
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </Link>
           </div>
-          <div className="grid gap-3 grid-cols-2">
+          <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
             {applicationData.map((value, index) => (
               <ApplicationBox key={index} {...value} />
             ))}
@@ -138,12 +142,16 @@ export default function ProfilePage() {
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 팁</h5>
-            <Link href="#" className="flex items-center text-gray600">
+            <Link href="#" className="flex items-center text-gray600 group">
               <p className="text-labelLarge">더보기</p>
-              <Arrow direction="right" size={16} />
+              <Arrow
+                direction="right"
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </Link>
           </div>
-          <div className="grid gap-3 grid-cols-2">
+          <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
             {tipData.map((value, index) => (
               <TipBox key={index} {...value} />
             ))}

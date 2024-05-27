@@ -30,14 +30,14 @@ export const TipBox = ({ title, content, name, date }: TipBoxProps) => {
           </div>
         </div>
       ) : (
-        <div className="p-8 flex flex-col w-full min-w-[240px] gap-2 items-start border border-gray100 bg-white rounded-3xl cursor-pointer">
-          <span className="text-titleSmall text-black truncate w-full">
+        <div className="p-8 sm:p-6 flex flex-col w-full min-w-[240px] gap-2 items-start border border-gray100 bg-white rounded-3xl cursor-pointer group">
+          <span className="text-titleSmall text-black group-hover:text-blue500 transition-colors truncate w-full">
             {title}
           </span>
-          <span className="text-bodySmall text-gray500 line-clamp-2 w-full flex-1">
+          <span className="text-bodySmall sm:text-labelMedium text-gray500 line-clamp-2 w-full flex-1">
             {content}
           </span>
-          <div className="text-bodySmall text-gray600 flex items-center gap-2 w-fit sm:w-full text-nowrap pt-3">
+          <div className="text-bodySmall sm:text-labelMedium text-gray600 flex items-center gap-2 w-fit sm:w-full text-nowrap pt-3">
             <span>{name}</span>
             <div className="w-0.5 h-0.5 bg-gray600 rounded-full" />
             <span>{dateToString(date)}</span>
