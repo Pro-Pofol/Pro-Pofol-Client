@@ -1,4 +1,5 @@
 import { Close, Delete } from "@/assets";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useRef } from "react"
 import { Button } from "../Button";
 
@@ -9,6 +10,7 @@ interface LoginModalType{
 export const ApplicationDeleteModal = ({click}:LoginModalType) =>{
     
     const modalRef = useRef<HTMLDivElement>(null)
+    const route = useRouter()
 
     return(
         <section className="w-screen h-screen fixed bg-modalBackground backdrop-blur-sm top-0 z-40">
@@ -29,7 +31,7 @@ export const ApplicationDeleteModal = ({click}:LoginModalType) =>{
                         </div>
                         <div className="flex gap-3 mt-7">
                             <Button className="w-full" size="medium" kind="gray" onClick={()=>click(false)}>취소</Button>
-                            <Button className="w-full" size="medium" kind="red">자료 삭제하기</Button>
+                            <Button onClick={()=>route.push('/application')} className="w-full" size="medium" kind="red">자료 삭제하기</Button>
                         </div>
                     </div>
                 </div>

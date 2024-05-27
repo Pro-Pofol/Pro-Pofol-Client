@@ -1,13 +1,26 @@
 "use client"
 
-import { Arrow, Bag, Delete, FileUpload, Link, More } from "@/assets";
+import { Arrow, Bag, Delete, FileUpload, Linking, More } from "@/assets";
 import { ApplicationDeleteModal } from "@/components/modal/ApplicationDelete";
-import { useState } from "react";
+import { getApplicationDetail } from "@/services/getApplicationDetail";
+import { applicationType } from "@/types/applicationType";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function Detail(){
+export default function Detail({params}: {params: {id: number}}){
 
     const [open, setOpen] = useState<boolean>(false)
     const [modal, setModal] = useState<boolean>(false)
+    const [detailData, setDetailData] = useState()    
+
+    useEffect(()=>{
+        async()=>{
+            const data = await getApplicationDetail(params.id)
+            console.log(data)
+            setDetailData(data)
+        }
+    },[detailData])
 
     return(
         <>
@@ -68,11 +81,9 @@ export default function Detail(){
                                 <FileUpload className="text-blue500" size={28}/>
                             </div>
                             <div className="flex flex-col gap-[2px]">
-                                <p className="text-bodySmall text-black">자료분야</p>
+                                <p className="text-bodySmall text-black">자료형식</p>
                                 <div className="flex items-center gap-2">
-                                    <p className="text-labelMedium text-gray600">Frontend</p>
-                                    <p className="text-labelLarge text-gray300">|</p>
-                                    <p className="text-labelMedium text-gray600">Backend</p>
+                                    <p className="text-labelMedium text-gray600">Web Link</p>
                                 </div>
                             </div>
                         </div>
@@ -81,13 +92,13 @@ export default function Detail(){
                     <div className="flex flex-col gap-4 pb-[120px]">
                         <p className="text-titleSmall text-gray950">자료 미리보기</p>
                         <embed className="w-full h-[100vh]" src="https://velog.io/@lgb9811/%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A1%9C-%EC%B7%A8%EC%A7%81%EA%B9%8C%EC%A7%80-%ED%95%B4%EB%86%93%EA%B3%A0-%EC%95%84%EC%A7%81%EB%8F%84-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%B4-%EB%AD%94%EC%A7%80-%EB%AA%A8%EB%A5%B8%EB%8B%A4%EA%B3%A0" />
-                        <div className="flex itmes-center justify-between p-4 border border-gray200 bg-gray50 rounded-xl cursor-pointer">
+                        <Link target='_blank' href="https://velog.io/@lgb9811/%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A1%9C-%EC%B7%A8%EC%A7%81%EA%B9%8C%EC%A7%80-%ED%95%B4%EB%86%93%EA%B3%A0-%EC%95%84%EC%A7%81%EB%8F%84-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%B4-%EB%AD%94%EC%A7%80-%EB%AA%A8%EB%A5%B8%EB%8B%A4%EA%B3%A0" className="flex itmes-center justify-between p-4 border border-gray200 bg-gray50 rounded-xl cursor-pointer">
                             <div className="flex items-center gap-3">
                                 <p className="text-bodyMedium text-gray950">자료링크 이동</p>
                                 <p className="w-[400px] text-labelMedium text-gray600 whitespace-nowrap overflow-hidden text-ellipsis">https://velog.io/@lgb9811/%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A1%9C-%EC%B7%A8%EC%A7%81%EA%B9%8C%EC%A7%80-%ED%95%B4%EB%86%93%EA%B3%A0-%EC%95%84%EC%A7%81%EB%8F%84-%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5%EC%9D%B4-%EB%AD%94%EC%A7%80-%EB%AA%A8%EB%A5%B8%EB%8B%A4%EA%B3%A0</p>
                             </div>
-                            <Link className="text-gray800"/>
-                        </div>
+                            <Linking className="text-gray800"/>
+                        </Link>
                     </div>
                 </article>
             </section>
