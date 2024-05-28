@@ -1,47 +1,7 @@
 import { Bulb, Portfolio } from "@/assets";
 import { MainBanner } from "./main";
 import { Button, SubTitleSection, ApplicationBox, TipBox } from "@/components";
-
-interface ApplicationBoxProps {
-  tag: "포트폴리오" | "자기소개서" | "이력서"
-  title: string
-  name: string
-  date: string
-  mainMajor?: string
-  subMajor?: string
-}
-
-const ApplyData: ApplicationBoxProps[] = [
-  {
-    tag: '포트폴리오',
-    title: '개인적으로 완벽한 포트폴리오',
-    name: '이강혁',
-    date: '2024-04-16',
-    mainMajor: 'Frontend',
-    subMajor: 'Backend'
-  },
-  {
-    tag: '자기소개서',
-    title: '자기소개의 참된 예를 잘 보여주는 글',
-    name: '강진현',
-    date: '2023-04-16',
-    mainMajor: 'Frontend'
-  },
-  {
-    tag: '이력서',
-    title: '올바른 형식의 이력서 예시',
-    name: '임태곤',
-    date: '2024-04-06'
-  },
-  {
-    tag: '포트폴리오',
-    title: '개인적으로 완벽한 포트폴리오',
-    name: '이강혁',
-    date: '2023-04-18',
-    mainMajor: 'Frontend',
-    subMajor: 'Backend'
-  }
-]
+import { getRecommend } from "@/services";
 
 interface TipBoxProps {
   title: string;
@@ -73,7 +33,8 @@ const TipData: TipBoxProps[] = [
   },
 ]
 
-export default function Home() {
+export default async function Home() {
+  const applicationData = await getRecommend().then(res => res.data.posts) || []
   return (
     <main>
       <MainBanner />
@@ -86,7 +47,7 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-1 gap-4">
               {
-                ApplyData.map((item, index) =>
+                applicationData.slice(0, 4).map((item, index) =>
                   <ApplicationBox
                     key={index}
                     {...item}
