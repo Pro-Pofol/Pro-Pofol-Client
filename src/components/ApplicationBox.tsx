@@ -1,5 +1,6 @@
 'use client'
 
+import { ApplicationFileType, ApplicationPreviewType } from "@/types"
 import { dateToString } from "@/utils"
 import { useRouter } from "next/navigation"
 
@@ -12,10 +13,16 @@ interface ApplicationBoxProps {
     subMajor?: string
 }
 
-const tagColor = {
-    이력서: 'bg-gray100 text-gray500',
-    포트폴리오: 'bg-attentionBackground text-attention',
-    자기소개서: 'bg-coutionBackground text-coution',
+const tagToKorean: Record<ApplicationFileType, string> = {
+    Portfolio: '포트폴리오',
+    PersonalStatement: '자기소개서',
+    Resume: '이력서',
+}
+
+const tagColor: Record<ApplicationFileType, string> = {
+    Portfolio: 'bg-attentionBackground text-attention',
+    PersonalStatement: 'bg-coutionBackground text-coution',
+    Resume: 'bg-gray100 text-gray500',
 }
 
 /**
@@ -28,22 +35,25 @@ const tagColor = {
     <ApplicationBox tag="포트폴리오" title="제목" name="유저이름" mainMajor="Frontend" />
 ```
  */
-export const ApplicationBox = ({ tag, title, name, date, mainMajor, subMajor }: ApplicationBoxProps) => {
-    
-    const router = useRouter();
+export const ApplicationBox = ({ post_id, post_title, post_post_type, user_oauth_id, post_major, post_created_at }: ApplicationPreviewType) => {
+    const router = useRouter()
 
     return (
-        <div onClick={()=>router.push('/application/1')} className="flex flex-col w-full p-8 gap-3 border border-gray100 bg-white rounded-3xl cursor-pointer">
-            <div className={`px-[11px] w-fit h-fit py-1 rounded-full text-labelLarge ${tagColor[tag]}`}>{tag}</div>
+        <div onClick={() => router.push(`/application/${post_id}`)} className="flex flex-col w-full p-8 gap-3 border border-gray100 bg-white rounded-3xl cursor-pointer">
+            <div className={`px-[11px] w-fit h-fit py-1 rounded-full text-labelLarge ${tagColor[post_post_type]}`}>{tagToKorean[post_post_type]}</div>
             <div className="flex flex-col gap-2">
-                <span className="text-titleMedium text-black truncate">{title}</span>
+                <span className="text-titleMedium text-black truncate">{post_title}</span>
                 <div className="flex justify-between items-center flex-wrap text-nowrap">
                     <div className="text-bodySmall text-gray600 flex items-center gap-2">
-                        <span>{name}</span>
+                        <span>{user_oauth_id}</span>
                         <div className="w-0.5 h-0.5 bg-gray600 rounded-full" />
-                        <span>{dateToString(date)}</span>
+                        <span>{dateToString(post_created_at)}</span>
                     </div>
-                    {tag !== '이력서' && (
+                    {
+                        post_post_type !== 'Resume' &&
+                        <span className="text-labelLarge text-gray500">{post_major}</span>
+                    }
+                    {/* {tag !== '이력서' && (
                         <div className="text-labelLarge text-gray500 flex items-center gap-2">
                             <span>{mainMajor}</span>
                             {
@@ -54,9 +64,9 @@ export const ApplicationBox = ({ tag, title, name, date, mainMajor, subMajor }: 
                                 </>
                             }
                         </div>
-                    )}
+                    )} */}
                 </div>
             </div>
-        </div>
+        </div >
     )
 }

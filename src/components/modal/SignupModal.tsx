@@ -35,7 +35,7 @@ export const SignupModal = ({ kind }: { kind: string }) => {
     }
     const access_token = getCookie('Access_Token')
     await authSignup(kind as AuthKindType, access_token || '', signupJson).then(
-      () => loginRedirect(kind as AuthKindType),
+      () => loginRedirect(kind as AuthKindType, true),
     )
   }
 

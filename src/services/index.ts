@@ -6,3 +6,5 @@ export { getApplicationDetail } from './getApplicationDetail'
 export { getMe } from './getMe'
 export { getUser } from './getUser'
 export { deleteApplication } from './deleteApplication'
+
+export * from './post'
