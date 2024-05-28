@@ -2,8 +2,8 @@
 
 import { Arrow } from '@/assets'
 import { TipBox } from '@/components'
+import { tipData } from '@/constants'
 import { useRouter } from 'next/navigation'
-import { tipData } from '../page'
 
 export default function MyTipPage() {
   const router = useRouter()

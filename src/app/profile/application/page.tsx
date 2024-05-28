@@ -2,8 +2,8 @@
 
 import { Arrow } from '@/assets'
 import { ApplicationBox } from '@/components'
+import { applicationData } from '@/constants'
 import { useRouter } from 'next/navigation'
-import { applicationData } from '../page'
 
 export default function MyApplicationPage() {
   const router = useRouter()
