@@ -30,7 +30,7 @@ export default function Detail({ params }: { params: { id: number } }) {
     if (detailData?.post_created_at) {
       const DateObj = new Date(detailData.post_created_at)
 
-      let year = DateObj.getFullYear()
+      const year = String(DateObj.getFullYear())
       let month = String(DateObj.getMonth() + 1)
       let day = String(DateObj.getDate())
       let hour = String(DateObj.getHours())
