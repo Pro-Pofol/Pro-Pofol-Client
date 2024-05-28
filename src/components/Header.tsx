@@ -81,16 +81,23 @@ export const Header = () => {
         </section>
         {hasToken ? (
           <section className="flex gap-6 items-center">
-            <Button kind="blue" size="small" className="sm:hidden" onClick={() => setModal(!modal)}>
+            <Button
+              kind="blue"
+              size="small"
+              className="sm:hidden"
+              onClick={() => setModal(!modal)}
+            >
               내 지원서 ∙ 팁 공유
             </Button>
-            <Image
-              src={PropofolLogo}
-              width={36}
-              height={36}
-              alt="유저 프로필 이미지"
-              className="w-9 h-9 object-cover rounded-full cursor-pointer"
-            />
+            <Link href="/profile">
+              <Image
+                src={PropofolLogo}
+                width={36}
+                height={36}
+                alt="유저 프로필 이미지"
+                className="w-9 h-9 object-cover rounded-full cursor-pointer"
+              />
+            </Link>
           </section>
         ) : (
           <Button kind="primary" size="small" onClick={() => setModal(!modal)}>
