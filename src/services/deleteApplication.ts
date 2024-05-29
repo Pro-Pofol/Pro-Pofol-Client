@@ -3,16 +3,16 @@
 import { cookies } from 'next/headers'
 import { instance } from './interceptor'
 
-export const getApplicationDetail = async (postId: number) => {
+export const deleteApplication = async (postId: number | undefined) => {
   const token = cookies().get('access_token')
 
   return await instance({
-    method: 'GET',
-    url: `/post/read/${postId}`,
+    method: 'DELETE',
+    url: `/post/${postId}`,
     headers: {
       Authorization: token?.value,
     },
-  }).then((response) => {
+  }).then((response)=>{
     return response.data
   })
 }
