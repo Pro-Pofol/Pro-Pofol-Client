@@ -25,7 +25,8 @@ const majorData: MajorType[] = ['Frontend', 'Backend', 'Android', 'iOS', 'CrossP
 
 const SideBar = () => {
     const [selectedKind, setSelectedKind] = useState<string>('모든 종류')
-    const [selectedMajor, setSelectedMajor] = useState<Partial<Record<MajorType, boolean>>>({})
+    // const [selectedMajor, setSelectedMajor] = useState<Partial<Record<MajorType, boolean>>>({})
+    const [selectedMajor, setSelectedMajor] = useState<MajorType>('Frontend')
     const [searchWord, setSearchWord] = useState<string>('')
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -34,10 +35,11 @@ const SideBar = () => {
         const param = new URLSearchParams(searchParams.toString())
 
         if (name == 'major') {
-            setSelectedMajor((prev) => ({ ...prev, [value as MajorType]: !prev[value as MajorType] }))
-            const majorParams = [...param.getAll('major')]
+            // setSelectedMajor((prev) => ({ ...prev, [value as MajorType]: !prev[value as MajorType] }))
+            // const majorParams = [...param.getAll('major')]
+            setSelectedMajor(value as MajorType)
             param.set(name, value)
-            Object.entries(selectedMajor).forEach(v => v[1] && majorParams.includes(v[0]) && param.append(name, v[0]))
+            // Object.entries(selectedMajor).forEach(v => v[1] && majorParams.includes(v[0]) && param.append(name, v[0]))
         } else if (name === 'kind') {
             setSelectedKind(value)
             param.set(name, tagToEnglish[value as KindType])
@@ -55,8 +57,11 @@ const SideBar = () => {
         if (searchParams.has('kind') && ['everything', 'Portfolio', 'PersonalStatement', 'Resume'].includes(searchParams.get('kind') as string)) {
             setSelectedKind(tagToKorean[searchParams.get('kind') as ('everything' | ApplicationFileType)])
         }
-        if (searchParams.has('major') && majorData.some(v => searchParams.getAll('major').includes(v))) {
-            setSelectedMajor(majorData.filter(v => searchParams.getAll('major').includes(v)).reduce((acc, v) => ({ ...acc, [v]: true }), {}))
+        // if (searchParams.has('major') && majorData.some(v => searchParams.getAll('major').includes(v))) {
+        //     setSelectedMajor(majorData.filter(v => searchParams.getAll('major').includes(v)).reduce((acc, v) => ({ ...acc, [v]: true }), {}))
+        // }
+        if (searchParams.has('major')) {
+            setSelectedMajor(searchParams.get('major') as MajorType)
         }
     }, [searchParams])
 

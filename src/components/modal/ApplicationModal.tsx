@@ -6,6 +6,7 @@ import { BaseModal } from "./BaseModal";
 import { getCookie, toast } from "@/utils";
 import { ApplicationFileType, MajorType } from "@/types";
 import { postLink } from "@/services/post/postLink";
+import { postFile } from "@/services";
 
 interface ApplicationModalType {
     click: Dispatch<SetStateAction<boolean>>
@@ -46,6 +47,7 @@ export const ApplicationModal = ({ click }: ApplicationModalType) => {
 
     const changeData = useCallback(<T, _>(name: string, value: T): void => {
         setData((prev) => ({ ...prev, [name]: value }))
+        console.log(name, value)
     }, [])
 
     const UploadFile = useCallback((
@@ -74,16 +76,44 @@ export const ApplicationModal = ({ click }: ApplicationModalType) => {
             return
         }
 
+        if (!data.title.length || data.title.length > 55) {
+            toast.error('제목의 길이는 1부터 55사이여야 합니다.')
+            return
+        }
+
+        const uploadData = {
+            title: data.title,
+            type: data.kind,
+            major: data.major[0]
+        }
+
         if (data.dataType === 'link') {
+            if (!data.link.length || data.link.length > 93) {
+                toast.error('링크의 길이는 1부터 93사이여야 합니다.')
+                return
+            }
             await postLink(token, {
-                title: data.title,
-                link: data.link,
-                type: data.kind,
-                major: data.major[0]
+                ...uploadData,
+                link: data.link
             }).then(() => {
                 toast.success('성공적으로 업로드되었습니다!')
                 click(false)
-            }).catch(err => {
+            }).catch(() => {
+                toast.error('업로드에 실패했습니다.')
+            })
+        } else {
+            if (!data.file) {
+                toast.error('파일을 추가해주십시오.')
+                return
+            }
+
+            await postFile(token, {
+                ...uploadData,
+                file: data.file
+            }).then(() => {
+                toast.success('성공적으로 업로드되었습니다!')
+                click(false)
+            }).catch(() => {
                 toast.error('업로드에 실패했습니다.')
             })
         }

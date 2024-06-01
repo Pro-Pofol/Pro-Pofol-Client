@@ -6,19 +6,15 @@ interface PostFileRequest {
 	title: string
 	type: ApplicationFileType
 	major: MajorType
+	file: File
 }
 
-export const postFile = async (accessToken: string, data: PostFileRequest, file: File) => {
-	const formData = new FormData()
-	formData.append('title', data.title)
-	formData.append('type', data.type)
-	formData.append('major', data.major)
-	formData.append('file', file)
-
+export const postFile = async (accessToken: string, data: PostFileRequest) => {
 	return await instance.post('/post/file', data,
 		{
 			headers: {
-				Authorization: `Bearer ${accessToken}`
+				Authorization: `Bearer ${accessToken}`,
+				'Content-Type': 'multipart/form-data'
 			}
 		}
 	)

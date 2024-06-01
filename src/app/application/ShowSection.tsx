@@ -7,27 +7,11 @@ import { useEffect, useState } from "react"
 const ApplyData: ApplicationPreviewType[] = [
     {
         "post_id": 1,
+        "post_writer_id": "111899969632443851953",
         "post_post_type": "Portfolio",
-        "post_title": "엄청나고 위대한 포트폴리오 자료",
+        "post_title": "제목",
         "post_major": "Backend",
-        "post_created_at": "2024-05-27T02:48:52.347Z",
-        "user_oauth_id": "110159413387878573726"
-    },
-    {
-        "post_id": 2,
-        "post_post_type": "Portfolio",
-        "post_title": "야호",
-        "post_major": "Frontend",
-        "post_created_at": "2024-05-27T04:26:28.899Z",
-        "user_oauth_id": "107359038156703139645"
-    },
-    {
-        "post_id": 3,
-        "post_post_type": "Portfolio",
-        "post_title": "테스트...",
-        "post_major": "Frontend",
-        "post_created_at": "2024-05-27T04:47:00.694Z",
-        "user_oauth_id": "107359038156703139645"
+        "post_created_at": "2024-05-27T08:15:33.336Z"
     }
 ]
 

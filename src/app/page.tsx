@@ -35,6 +35,7 @@ const TipData: TipBoxProps[] = [
 
 export default async function Home() {
   const applicationData = await getRecommend().then(res => res.data.posts) || []
+
   return (
     <main>
       <MainBanner />
