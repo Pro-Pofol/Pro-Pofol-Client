@@ -9,3 +9,7 @@ export const getCookie = (name: string) => {
   )
   return matches ? decodeURIComponent(matches[1]) : undefined
 }
+
+export const removeCookie = (name: string) => {
+  document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`
+}

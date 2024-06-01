@@ -1,13 +1,12 @@
-import { MajorType } from "./majorType"
-import { PostType } from "./postType"
+import { MajorType } from './majorType'
+import { PostType } from './postType'
 
-export type applicationType = {
-    id: number
-    post_type: PostType
-    title: string
-    content: string
-    link: string
-    major: MajorType
-    writer_id: string
-    created_at: Date
+export type ApplicationType = {
+  post_id: number
+  post_post_type: PostType
+  post_title: string
+  post_link?: string
+  post_major: MajorType
+  post_created_at: Date
+  post_writer_id: string
 }

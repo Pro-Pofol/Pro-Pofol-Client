@@ -1,1 +1,1 @@
-export type PostType = 'Link' | 'PDF'
+export type PostType = 'Portfolio' | 'Resume' | 'PersonalStatement'

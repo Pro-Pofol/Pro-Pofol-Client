@@ -2,13 +2,14 @@
 
 import { cookies } from 'next/headers'
 import { instance } from './interceptor'
+import { UserType } from '@/types'
 
-export const getApplicationDetail = async (postId: number) => {
+export const getMe = async () => {
   const token = cookies().get('access_token')
 
-  return await instance({
+  return await instance<UserType>({
     method: 'GET',
-    url: `/post/read/${postId}`,
+    url: '/users/me',
     headers: {
       Authorization: token?.value,
     },
