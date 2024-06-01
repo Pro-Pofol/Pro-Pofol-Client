@@ -17,8 +17,8 @@ export const authLogin = async (kind: AuthKindType, token: string) => {
     cookies().set({
       name: 'RF-TOKEN',
       value: setCookie?.[0].split(';')[0].split('=')[1] as string,
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: false,
       path: '/',
       sameSite: 'strict',
     })
