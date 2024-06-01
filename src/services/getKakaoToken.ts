@@ -11,9 +11,6 @@ export const getKakaoToken = async (code: string) => {
       code: code,
     },
   })
-    .then((res) => {
-      console.log(`[[[data is ${res}]]]`)
-      return res.data
-    })
+    .then((res) => res.data)
     .catch((error) => console.log(error))
 }

@@ -6,21 +6,10 @@ import { Button } from '../Button'
 import { Input } from '../Input'
 import { Select } from '../Select'
 import Link from 'next/link'
-import { AuthSignupType } from '@/types'
+import { AuthKindType, AuthSignupType } from '@/types'
 import { authSignup } from '@/services'
-import { getCookie } from '@/utils'
-
-const option = [
-  { value: '1', name: 'Backend' },
-  { value: '2', name: 'Frontend' },
-  { value: '3', name: 'iOS' },
-  { value: '4', name: 'Android' },
-  { value: '5', name: 'DevOps' },
-  { value: '6', name: 'Design' },
-  { value: '7', name: 'AI' },
-  { value: '8', name: 'CrossPlatform' },
-  { value: '9', name: 'Blockchain' },
-]
+import { getCookie, loginRedirect } from '@/utils'
+import { majorOption } from '@/constants'
 
 export const SignupModal = ({ kind }: { kind: string }) => {
   const [major, setMajor] = useState<string>('')
@@ -34,10 +23,9 @@ export const SignupModal = ({ kind }: { kind: string }) => {
       major: major,
     }
     const access_token = getCookie('Access_Token')
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-expect-error
-    const token = await authSignup(kind, access_token, signupJson)
-    console.log(token)
+    await authSignup(kind as AuthKindType, access_token || '', signupJson).then(
+      () => loginRedirect(kind as AuthKindType, true),
+    )
   }
 
   return (
@@ -72,12 +60,12 @@ export const SignupModal = ({ kind }: { kind: string }) => {
               label="기수"
               placeholder="기수을 입력해주세요."
               value={generation}
-              change={(e) => setGeneration(e.target.value.slice(0, 1))}
+              change={(e) => setGeneration(e.target.value.slice(0, 2))}
             />
             <Select
               label="전공"
               placeholder="전공을 선택해주세요."
-              options={option}
+              options={majorOption}
               value={major}
               change={setMajor}
             />
