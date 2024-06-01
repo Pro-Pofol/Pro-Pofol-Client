@@ -1,3 +1,5 @@
 export * from './LoginModal'
 export * from './SignupModal'
 export * from './ApplicationModal'
+export * from './TipModal'
+export * from './UploadSelectModal'

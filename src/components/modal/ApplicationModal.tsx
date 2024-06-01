@@ -10,6 +10,7 @@ import { postFile } from "@/services";
 
 interface ApplicationModalType {
     click: Dispatch<SetStateAction<boolean>>
+    change?: Dispatch<SetStateAction<string>>
 }
 
 interface ApplicationDataType {
@@ -35,7 +36,7 @@ const tagColor: Record<ApplicationFileType, string> = {
     Resume: 'bg-gray100 text-gray500',
 }
 
-export const ApplicationModal = ({ click }: ApplicationModalType) => {
+export const ApplicationModal = ({ click, change = () => { } }: ApplicationModalType) => {
     const [data, setData] = useState<ApplicationDataType>({
         kind: 'Portfolio',
         title: '',
@@ -47,7 +48,6 @@ export const ApplicationModal = ({ click }: ApplicationModalType) => {
 
     const changeData = useCallback(<T, _>(name: string, value: T): void => {
         setData((prev) => ({ ...prev, [name]: value }))
-        console.log(name, value)
     }, [])
 
     const UploadFile = useCallback((
@@ -81,41 +81,44 @@ export const ApplicationModal = ({ click }: ApplicationModalType) => {
             return
         }
 
+        if (data.major.length === 0) {
+            toast.error('전공은 없을 수 없습니다.')
+            return
+        }
+
         const uploadData = {
             title: data.title,
             type: data.kind,
             major: data.major[0]
         }
 
-        if (data.dataType === 'link') {
-            if (!data.link.length || data.link.length > 93) {
-                toast.error('링크의 길이는 1부터 93사이여야 합니다.')
-                return
-            }
-            await postLink(token, {
-                ...uploadData,
-                link: data.link
-            }).then(() => {
-                toast.success('성공적으로 업로드되었습니다!')
-                click(false)
-            }).catch(() => {
-                toast.error('업로드에 실패했습니다.')
-            })
-        } else {
-            if (!data.file) {
-                toast.error('파일을 추가해주십시오.')
-                return
+        try {
+            if (data.dataType === 'link') {
+                if (!data.link.length || data.link.length > 93) {
+                    toast.error('링크의 길이는 1부터 93사이여야 합니다.')
+                    return
+                }
+                await postLink(token, {
+                    ...uploadData,
+                    link: data.link
+                })
+            } else {
+                if (!data.file) {
+                    toast.error('파일을 추가해주십시오.')
+                    return
+                }
+
+                await postFile(token, {
+                    ...uploadData,
+                    file: data.file
+                })
             }
 
-            await postFile(token, {
-                ...uploadData,
-                file: data.file
-            }).then(() => {
-                toast.success('성공적으로 업로드되었습니다!')
-                click(false)
-            }).catch(() => {
-                toast.error('업로드에 실패했습니다.')
-            })
+            toast.success('성공적으로 업로드되었습니다!')
+            change('')
+            click(false)
+        } catch {
+            toast.error('업로드에 실패했습니다.')
         }
     }, [data])
 
@@ -124,7 +127,10 @@ export const ApplicationModal = ({ click }: ApplicationModalType) => {
             title="지원서 자료 공유"
             subTitle="사용자들에게 나만의 지원서 자료를 공유해 보세요."
             icon={<Portfolio size={28} />}
-            click={click}
+            click={() => {
+                change('')
+                click(false)
+            }}
             className="w-[640px]"
         >
             {/* 유형 선택 */}

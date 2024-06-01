@@ -7,8 +7,9 @@ interface InputType {
   placeholder: string
   value?: string
   name?: string
-  change?: (e: React.ChangeEvent<HTMLInputElement>) => void
+  change?: (e: React.ChangeEvent<HTMLInputElement & HTMLTextAreaElement>) => void
   err?: boolean
+  isArea?: boolean
 }
 
 const inputColor = {
@@ -48,9 +49,10 @@ export const Input = ({
   value,
   change,
   err = false,
+  isArea = false
 }: InputType) => {
   const [focused, setFocsed] = useState<boolean>(false)
-  const inputRef = useRef<HTMLInputElement>(null)
+  const inputRef = useRef<HTMLInputElement & HTMLTextAreaElement>(null)
 
   return (
     <div
@@ -59,18 +61,33 @@ export const Input = ({
                 ${focused ? inputColor.label.selected : err ? inputColor.label.error : value ? inputColor.label.input : inputColor.label.enable}`}
     >
       {label && <label className={`text-bodySmall`}>{label}</label>}
-      <input
-        className={`text-bodyMedium p-[15px] rounded-xl 
-                    ${focused ? inputColor.input.selected : err ? inputColor.input.error : value ? inputColor.input.input : inputColor.input.enable}`}
-        placeholder={placeholder}
-        ref={inputRef}
-        type="text"
-        name={name}
-        value={value}
-        onChange={change}
-        onFocus={() => setFocsed(true)}
-        onBlur={() => setFocsed(false)}
-      />
+      {
+        isArea ?
+          <textarea
+            className={`text-bodyMedium p-[15px] h-60 rounded-xl resize-none
+                        ${focused ? inputColor.input.selected : err ? inputColor.input.error : value ? inputColor.input.input : inputColor.input.enable}`}
+            placeholder={placeholder}
+            ref={inputRef}
+            name={name}
+            value={value}
+            onChange={change}
+            onFocus={() => setFocsed(true)}
+            onBlur={() => setFocsed(false)}
+          />
+          :
+          <input
+            className={`text-bodyMedium p-[15px] rounded-xl 
+                      ${focused ? inputColor.input.selected : err ? inputColor.input.error : value ? inputColor.input.input : inputColor.input.enable}`}
+            placeholder={placeholder}
+            ref={inputRef}
+            type="text"
+            name={name}
+            value={value}
+            onChange={change}
+            onFocus={() => setFocsed(true)}
+            onBlur={() => setFocsed(false)}
+          />
+      }
     </div>
   )
 }

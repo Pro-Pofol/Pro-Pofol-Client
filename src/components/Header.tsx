@@ -2,7 +2,7 @@
 
 import { PropofolFullLogo, PropofolLogo } from '@/assets'
 import Image from 'next/image'
-import { ApplicationModal, Button } from '.'
+import { ApplicationModal, Button, TipModal, UploadSelectModal } from '.'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { LoginModal } from './modal/LoginModal'
@@ -13,6 +13,7 @@ export const Header = () => {
   const [hasToken, setHasToken] = useState<boolean>(false)
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [modal, setModal] = useState<boolean>(false)
+  const [uploadKind, setUploadKind] = useState<string>('')
   const pathName = usePathname()
 
   useEffect(() => {
@@ -100,7 +101,13 @@ export const Header = () => {
       </header>
       {modal &&
         (hasToken ? (
-          <ApplicationModal click={setModal} />
+          uploadKind == 'application' ?
+            <ApplicationModal click={setModal} change={setUploadKind} />
+            :
+            uploadKind == 'tip' ?
+              <TipModal click={setModal} change={setUploadKind} />
+              :
+              <UploadSelectModal click={setModal} change={setUploadKind} />
         ) : (
           <LoginModal click={setModal} />
         ))}

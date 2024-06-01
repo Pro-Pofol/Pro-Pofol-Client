@@ -33,7 +33,7 @@ export const ApplicationBox = ({ post_id, post_title, post_post_type, post_write
     const router = useRouter()
 
     const getData = useCallback(async () => {
-        if(!post_writer_id) return
+        if (!post_writer_id) return
         const userData = await getUser(post_writer_id).then(res => res.data)
         setUser(userData)
     }, [])
@@ -53,10 +53,7 @@ export const ApplicationBox = ({ post_id, post_title, post_post_type, post_write
                         <div className="w-0.5 h-0.5 bg-gray600 rounded-full" />
                         <span>{dateToString(post_created_at)}</span>
                     </div>
-                    {
-                        post_post_type !== 'Resume' &&
-                        <span className="text-labelLarge text-gray500">{post_major}</span>
-                    }
+                    <span className="text-labelLarge text-gray500">{post_major}</span>
                     {/* {tag !== '이력서' && (
                         <div className="text-labelLarge text-gray500 flex items-center gap-2">
                             <span>{mainMajor}</span>

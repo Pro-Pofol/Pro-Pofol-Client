@@ -29,13 +29,13 @@ export const SubTitleSection = ({ title, subTitle, icon, onClick }: SubTitleSect
     return (
         <section className={`flex flex-col break-keep ${icon ? 'gap-3' : 'gap-2'} ${onClick ? 'w-full' : 'w-fit'}`}>
             <div className="flex justify-between">
-                {icon && <div className="p-3 border border-blue100 bg-blue50 text-blue500 rounded-xl">{icon}</div>}
+                {icon && <div className="p-[11px] border border-blue100 bg-blue50 text-blue500 rounded-xl">{icon}</div>}
                 {
                     onClick &&
                     <Close size={28} className="text-black" onClick={onClick} />
                 }
             </div>
-            <div className={`flex flex-col gap-1 ${icon ? 'gap-1' : 'gap-2'}`}>
+            <div className={`flex flex-col ${icon ? 'gap-1' : 'gap-2'}`}>
                 <span className={onClick ? icon ? 'text-titleMedium' : 'text-headlineSmall' : 'text-titleLarge'}>{title}</span>
                 <span className={`${(onClick && icon) ? 'text-bodySmall' : 'text-bodyMedium'} ${onClick ? 'text-gray600' : 'text-black'}`}>{subTitle}</span>
             </div>
