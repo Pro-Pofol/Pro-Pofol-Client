@@ -8,5 +8,4 @@ export { getUser } from './getUser'
 export { deleteApplication } from './deleteApplication'
 
 export * from './post'
-export * from './user'
 export * from './tip'

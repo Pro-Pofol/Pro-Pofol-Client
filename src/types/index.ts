@@ -7,5 +7,4 @@ export { type PostType } from './postType'
 
 export { type ApplicationFileType } from './applicationFile.type'
 export { type ApplicationPreviewType } from './applicationPreview.type'
-export { type UserType } from './user.type'
 export * from './post'

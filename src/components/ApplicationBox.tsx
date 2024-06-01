@@ -3,19 +3,20 @@
 import { getUser } from "@/services"
 import { ApplicationFileType, ApplicationPreviewType, UserType } from "@/types"
 import { dateToString } from "@/utils"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 
 const tagToKorean: Record<ApplicationFileType, string> = {
-  Portfolio: '포트폴리오',
-  PersonalStatement: '자기소개서',
-  Resume: '이력서',
+    Portfolio: '포트폴리오',
+    PersonalStatement: '자기소개서',
+    Resume: '이력서',
 }
 
 const tagColor: Record<ApplicationFileType, string> = {
-  Portfolio: 'bg-attentionBackground text-attention',
-  PersonalStatement: 'bg-coutionBackground text-coution',
-  Resume: 'bg-gray100 text-gray500',
+    Portfolio: 'bg-attentionBackground text-attention',
+    PersonalStatement: 'bg-coutionBackground text-coution',
+    Resume: 'bg-gray100 text-gray500',
 }
 
 /**
@@ -43,12 +44,15 @@ export const ApplicationBox = ({ post_id, post_title, post_post_type, post_write
     }, [])
 
     return (
-        <div onClick={() => router.push(`/application/${post_id}`)} className="flex flex-col w-full p-8 gap-3 border border-gray100 bg-white rounded-3xl cursor-pointer">
+        <Link
+            href={`/application/${post_id}`}
+            className="flex flex-col w-full p-8 sm:p-6 gap-3 border border-gray100 bg-white rounded-3xl cursor-pointer group"
+        >
             <div className={`px-[11px] w-fit h-fit py-1 rounded-full text-labelLarge ${tagColor[post_post_type]}`}>{tagToKorean[post_post_type]}</div>
             <div className="flex flex-col gap-2">
-                <span className="text-titleMedium text-black truncate">{post_title}</span>
+                <span className="text-titleMedium sm:text-titleSmall text-black group-hover:text-blue500 truncate transition-colors">{post_title}</span>
                 <div className="flex justify-between items-center flex-wrap text-nowrap">
-                    <div className="text-bodySmall text-gray600 flex items-center gap-2">
+                    <div className="text-bodySmall sm:text-labelMedium text-gray600 flex items-center gap-2">
                         <span>{user ? user.name : ''}</span>
                         <div className="w-0.5 h-0.5 bg-gray600 rounded-full" />
                         <span>{dateToString(post_created_at)}</span>
@@ -68,9 +72,6 @@ export const ApplicationBox = ({ post_id, post_title, post_post_type, post_write
                     )} */}
                 </div>
             </div>
-          )} */}
-        </div>
-      </div>
-    </Link>
-  )
+        </Link >
+    )
 }
