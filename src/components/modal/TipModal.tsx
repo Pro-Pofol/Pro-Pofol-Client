@@ -66,6 +66,7 @@ export const TipModal = ({ click, change = () => { } }: TipModalType) => {
                 placeholder="팁 제목을 입력해 주세요."
                 value={data.title}
                 change={(e) => changeData('title', e.currentTarget.value)}
+                err={data.title.length > 55}
             />
             {/* 내용 입력 */}
             <Input
