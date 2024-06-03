@@ -31,17 +31,16 @@ const tagColor: Record<ApplicationFileType, string> = {
  */
 export const ApplicationBox = ({ post_id, post_title, post_post_type, post_writer_id, post_major, post_created_at }: ApplicationPreviewType) => {
     const [user, setUser] = useState<UserType | null>(null)
-    const router = useRouter()
 
     const getData = useCallback(async () => {
         if (!post_writer_id) return
-        const userData = await getUser(post_writer_id).then(res => res.data)
+        const userData = await getUser(post_writer_id)
         setUser(userData)
-    }, [])
+    }, [post_writer_id])
 
     useEffect(() => {
         getData()
-    }, [])
+    }, [post_writer_id])
 
     return (
         <Link

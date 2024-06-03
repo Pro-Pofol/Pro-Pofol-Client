@@ -70,7 +70,7 @@ const ShowSection = () => {
             <div className="py-6 px-10 flex justify-between items-center sticky bg-white top-0 left-0 w-full h-fit flex-wrap gap-2">
                 <div className="flex gap-x-3 gap-y-2 flex-wrap break-keep">
                     {searchWord && <span className="text-bodyLarge text-blue500">“{searchWord}”에 대한</span>}
-                    <span className="text-bodyLarge text-black">182개의 지원서 자료</span>
+                    <span className="text-bodyLarge text-black">{applicationData.length}개의 지원서 자료</span>
                 </div>
                 <div className="p-1 gap-0.5 flex rounded-full border h-12 border-gray200 bg-gray50 text-bodySmall relative text-gray600 ml-auto">
                     <div className={`absolute top-[2px] ${orderType === 'ASC' ? 'left-[3px]' : 'left-[80px]'} border border-gray100 bg-white py-2 px-4 text-transparent rounded-full transition-all`}>{orderType === 'ASC' ? '최신순' : '오래된순'}</div>
