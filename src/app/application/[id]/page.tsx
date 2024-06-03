@@ -6,6 +6,7 @@ import { getApplicationDetail, getMe, getUser } from '@/services'
 import { ApplicationType, UserType } from '@/types'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 export default function Detail({ params }: { params: { id: number } }) {
   const [open, setOpen] = useState<boolean>(false)
@@ -13,6 +14,7 @@ export default function Detail({ params }: { params: { id: number } }) {
   const [detailData, setDetailData] = useState<ApplicationType>()
   const [userData, setUserData] = useState<UserType>()
   const [myData, setMyData] = useState<UserType>()
+  const route = useRouter()
 
   const getData = async () => {
     const data: ApplicationType = await getApplicationDetail(params.id)
@@ -94,7 +96,14 @@ export default function Detail({ params }: { params: { id: number } }) {
               {detailData?.post_title}
             </h1>
             <div className="flex items-center gap-2 text-gray600">
-              <p>{userData?.name}</p>
+              <p
+                onClick={() =>
+                  route.push(`/profile/${detailData?.post_writer_id}`)
+                }
+                className="cursor-pointer"
+              >
+                {userData?.name}
+              </p>
               <p>﹒</p>
               <p>{DateFormat()}</p>
             </div>
