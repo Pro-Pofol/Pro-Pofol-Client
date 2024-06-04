@@ -9,3 +9,4 @@ export { deleteApplication } from './deleteApplication'
 export { userFollow } from './userFollow'
 
 export * from './post'
+export * from './tip'

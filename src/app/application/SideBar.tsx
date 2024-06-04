@@ -23,40 +23,44 @@ const tagToEnglish: Record<KindType, 'everything' | ApplicationFileType> = {
 
 const majorData: MajorType[] = ['Frontend', 'Backend', 'Android', 'iOS', 'CrossPlatform', 'AI', 'DevOps', 'Design', 'Game', 'Blockchain']
 
+interface ApplicationDataModal {
+    kind: KindType
+    major: MajorType,
+    searchWord: string
+}
+
 const SideBar = () => {
-    const [selectedKind, setSelectedKind] = useState<string>('모든 종류')
-    const [selectedMajor, setSelectedMajor] = useState<Partial<Record<MajorType, boolean>>>({})
-    const [searchWord, setSearchWord] = useState<string>('')
+    const [data, setData] = useState<ApplicationDataModal>({
+        kind: '모든 종류',
+        major: 'Frontend',
+        searchWord: ''
+    })
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const changeParams = useCallback((name: 'kind' | 'major' | 'word') => (value: string) => {
+    const changeData = useCallback((name: 'kind' | 'major' | 'searchWord') => (value: string) => {
+        setData(prev => ({ ...prev, [name]: value }))
+    }, [])
+
+    const changeParams = useCallback(() => {
         const param = new URLSearchParams(searchParams.toString())
 
-        if (name == 'major') {
-            setSelectedMajor((prev) => ({ ...prev, [value as MajorType]: !prev[value as MajorType] }))
-            const majorParams = [...param.getAll('major')]
-            param.set(name, value)
-            Object.entries(selectedMajor).forEach(v => v[1] && majorParams.includes(v[0]) && param.append(name, v[0]))
-        } else if (name === 'kind') {
-            setSelectedKind(value)
-            param.set(name, tagToEnglish[value as KindType])
-        } else {
-            param.set(name, value)
-        }
+        param.set('major', data.major)
+        param.set('kind', tagToEnglish[data.kind as KindType])
+        param.set('word', data.searchWord)
 
         router.push(`application?${param}`)
-    }, [searchParams])
+    }, [searchParams, data])
 
     useEffect(() => {
         if (searchParams.has('word')) {
-            setSearchWord(searchParams.get('word') || '')
+            changeData('searchWord')(searchParams.get('word') || '')
         }
         if (searchParams.has('kind') && ['everything', 'Portfolio', 'PersonalStatement', 'Resume'].includes(searchParams.get('kind') as string)) {
-            setSelectedKind(tagToKorean[searchParams.get('kind') as ('everything' | ApplicationFileType)])
+            changeData('kind')(tagToKorean[searchParams.get('kind') as ('everything' | ApplicationFileType)])
         }
-        if (searchParams.has('major') && majorData.some(v => searchParams.getAll('major').includes(v))) {
-            setSelectedMajor(majorData.filter(v => searchParams.getAll('major').includes(v)).reduce((acc, v) => ({ ...acc, [v]: true }), {}))
+        if (searchParams.has('major')) {
+            changeData('major')(searchParams.get('major') as MajorType)
         }
     }, [searchParams])
 
@@ -68,9 +72,9 @@ const SideBar = () => {
                     id="searchInput"
                     placeholder="포트폴리오/자기소개서 검색"
                     className="bg-transparent w-full border-none outline-none placeholder:text-gray500 text-black"
-                    defaultValue={searchWord}
-                    onChange={(e) => setSearchWord(e.currentTarget.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && changeParams('word')(searchWord)}
+                    defaultValue={data.searchWord}
+                    onChange={(e) => changeData('searchWord')(e.currentTarget.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && changeParams()}
                 />
             </div>
             <div className="gap-2 flex flex-col flex-2 w-full">
@@ -80,8 +84,8 @@ const SideBar = () => {
                     icon={<Portfolio size={16} />}
                     title='지원서 종류'
                     display={kindData}
-                    value={selectedKind}
-                    setValue={changeParams('kind')}
+                    value={data.kind}
+                    setValue={changeData('kind')}
                     open
                 />
                 <div className="w-full h-px bg-gray200" />
@@ -90,8 +94,8 @@ const SideBar = () => {
                     icon={<Bag size={16} />}
                     title='작성자 종류'
                     display={majorData}
-                    value={selectedMajor}
-                    setValue={changeParams('major')}
+                    value={data.major}
+                    setValue={changeData('major')}
                 />
             </div>
         </section>
