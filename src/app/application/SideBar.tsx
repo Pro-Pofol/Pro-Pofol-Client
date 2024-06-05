@@ -2,20 +2,21 @@
 import { Bag, Portfolio, Search } from "@/assets"
 import { useCallback, useEffect, useState } from "react"
 import { SideSelect } from "./SideSelect"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation"
 import { ApplicationFileType, MajorType } from "@/types"
 
 type KindType = '모든 종류' | '포트폴리오' | '자기소개서' | '이력서'
+type KindEnglish = 'Everything' | ApplicationFileType
 const kindData: KindType[] = ['모든 종류', '포트폴리오', '자기소개서', '이력서']
-const tagToKorean: Record<'everything' | ApplicationFileType, KindType> = {
-    everything: '모든 종류',
+const tagToKorean: Record<KindEnglish, KindType> = {
+    Everything: '모든 종류',
     Portfolio: '포트폴리오',
     PersonalStatement: '자기소개서',
     Resume: '이력서',
 }
 
-const tagToEnglish: Record<KindType, 'everything' | ApplicationFileType> = {
-    '모든 종류': 'everything',
+const tagToEnglish: Record<KindType, KindEnglish> = {
+    '모든 종류': 'Everything',
     포트폴리오: 'Portfolio',
     자기소개서: 'PersonalStatement',
     이력서: 'Resume',
@@ -24,21 +25,21 @@ const tagToEnglish: Record<KindType, 'everything' | ApplicationFileType> = {
 const majorData: MajorType[] = ['Frontend', 'Backend', 'Android', 'iOS', 'CrossPlatform', 'AI', 'DevOps', 'Design', 'Game', 'Blockchain']
 
 interface ApplicationDataModal {
-    kind: KindType
+    type: KindType
     major: MajorType,
     searchWord: string
 }
 
 const SideBar = () => {
     const [data, setData] = useState<ApplicationDataModal>({
-        kind: '모든 종류',
+        type: '모든 종류',
         major: 'Frontend',
         searchWord: ''
     })
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const changeData = useCallback((name: 'kind' | 'major' | 'searchWord') => (value: string) => {
+    const changeData = useCallback((name: 'type' | 'major' | 'searchWord') => (value: string) => {
         setData(prev => ({ ...prev, [name]: value }))
     }, [])
 
@@ -46,7 +47,7 @@ const SideBar = () => {
         const param = new URLSearchParams(searchParams.toString())
 
         param.set('major', data.major)
-        param.set('kind', tagToEnglish[data.kind as KindType])
+        param.set('type', tagToEnglish[data.type as KindType])
         param.set('word', data.searchWord)
 
         router.push(`application?${param}`)
@@ -56,8 +57,8 @@ const SideBar = () => {
         if (searchParams.has('word')) {
             changeData('searchWord')(searchParams.get('word') || '')
         }
-        if (searchParams.has('kind') && ['everything', 'Portfolio', 'PersonalStatement', 'Resume'].includes(searchParams.get('kind') as string)) {
-            changeData('kind')(tagToKorean[searchParams.get('kind') as ('everything' | ApplicationFileType)])
+        if (searchParams.has('type') && ['Everything', 'Portfolio', 'PersonalStatement', 'Resume'].includes(searchParams.get('type') as string)) {
+            changeData('type')(tagToKorean[searchParams.get('type') as ('Everything' | ApplicationFileType)])
         }
         if (searchParams.has('major')) {
             changeData('major')(searchParams.get('major') as MajorType)
@@ -84,8 +85,8 @@ const SideBar = () => {
                     icon={<Portfolio size={16} />}
                     title='지원서 종류'
                     display={kindData}
-                    value={data.kind}
-                    setValue={changeData('kind')}
+                    value={data.type}
+                    setValue={changeData('type')}
                     open
                 />
                 <div className="w-full h-px bg-gray200" />

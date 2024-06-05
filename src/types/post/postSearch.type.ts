@@ -2,7 +2,7 @@ import { ApplicationFileType, MajorType } from ".."
 
 export interface PostSearchType {
     keyword: string
-    kind: 'everything' | ApplicationFileType
+    type: 'Everything' | ApplicationFileType
     major: MajorType,
     sort: 'ASC' | 'DESC'
 }
