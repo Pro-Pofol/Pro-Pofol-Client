@@ -1,6 +1,5 @@
 import { ApplicationPreviewType } from "@/types/applicationPreview.type"
 import { instance } from "../interceptor"
-import { cookies } from "next/headers"
 import { PostSearchType } from "@/types"
 
 interface GetApplicationDataResponseType {

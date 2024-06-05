@@ -20,7 +20,7 @@ export const SignupModal = ({ kind }: { kind: string }) => {
     const signupJson: AuthSignupType = {
       generation: +generation,
       name: name,
-      major: major,
+      user_major: major,
     }
     const access_token = getCookie('Access_Token')
     await authSignup(kind as AuthKindType, access_token || '', signupJson).then(
