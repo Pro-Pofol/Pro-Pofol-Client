@@ -6,5 +6,7 @@ export { getApplicationDetail } from './getApplicationDetail'
 export { getMe } from './getMe'
 export { getUser } from './getUser'
 export { deleteApplication } from './deleteApplication'
+export { userFollow } from './userFollow'
 
 export * from './post'
+export * from './tip'

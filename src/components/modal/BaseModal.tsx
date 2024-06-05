@@ -5,7 +5,7 @@ interface BaseModalType {
     title: string
     subTitle: string
     icon?: React.ReactNode
-    click: Dispatch<SetStateAction<boolean>>
+    click: Dispatch<SetStateAction<boolean>> | (() => void)
     children: React.ReactNode
     className?: string
 }
