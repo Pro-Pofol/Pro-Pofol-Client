@@ -1,1 +1,6 @@
 export * from './postTip'
+export * from './searchTip'
+export * from './recommendTip'
+export * from './detailTip'
+export * from './deleteTip'
+export * from './fixTip'
