@@ -6,7 +6,9 @@ import Image from 'next/image'
 import { UserType } from '@/types'
 import { majorOption } from '@/constants'
 import { useState } from 'react'
-import { uploadFile } from '@/utils'
+import { getCookie, uploadFile } from '@/utils'
+import { editProfile } from '@/services'
+import { useRouter } from 'next/navigation'
 
 interface ImgDataType {
   img?: File
@@ -15,12 +17,30 @@ interface ImgDataType {
 
 export const ProfileEdit = ({ myData }: { myData: UserType }) => {
   const [generation, setGeneration] = useState<string>(`${myData.generation}`)
-  const [major, setMajor] = useState<string>(myData.major)
+  const [major, setMajor] = useState<string>(myData.user_major)
   const [imgData, setImgData] = useState<ImgDataType>({
     imgString: myData.profile_image,
   })
 
-  const editProfile = () => {}
+  const router = useRouter()
+
+  const isChanged = () => {
+    if (generation !== `${myData.generation}`) return false
+    else if (major !== myData.user_major) return false
+    else if (imgData.imgString !== myData.profile_image) return false
+    else return true
+  }
+
+  const editProfileHandler = async () => {
+    const editedData = {
+      profile_image: myData.profile_image,
+      generation: +generation,
+      user_major: major,
+    }
+    const token = getCookie('access_token') || ''
+    await editProfile(token, editedData)
+    router.replace('/profile')
+  }
 
   return (
     <>
@@ -71,7 +91,12 @@ export const ProfileEdit = ({ myData }: { myData: UserType }) => {
           change={setMajor}
         />
       </article>
-      <Button size="large" className="w-full" onClick={editProfile}>
+      <Button
+        size="large"
+        className="w-full"
+        onClick={editProfileHandler}
+        disabled={isChanged()}
+      >
         프로필 수정하기
       </Button>
     </>

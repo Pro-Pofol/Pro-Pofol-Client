@@ -7,6 +7,7 @@ export { getMe } from './getMe'
 export { getUser } from './getUser'
 export { deleteApplication } from './deleteApplication'
 export { userFollow } from './userFollow'
+export { editProfile } from './profile/editProfile'
 
 export * from './post'
 export * from './tip'

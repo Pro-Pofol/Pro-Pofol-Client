@@ -7,7 +7,8 @@ import Link from 'next/link'
 import { LogoutButton } from './LogoutButton'
 
 export const ProfileInfo = async () => {
-  const { generation, major, name, oauth_id, profile_image } = await getMe()
+  const { generation, user_major, name, oauth_id, profile_image } =
+    await getMe()
   return (
     <>
       <div className="flex justify-center h-[180px] w-full relative">
@@ -59,7 +60,7 @@ export const ProfileInfo = async () => {
               </div>
               <div className="flex flex-col items-center gap-[2px]">
                 <p className="text-bodySmall">전공</p>
-                <p className="text-labelMedium text-gray600">{major}</p>
+                <p className="text-labelMedium text-gray600">{user_major}</p>
               </div>
             </div>
           </div>
