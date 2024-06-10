@@ -94,7 +94,7 @@ export default function AnotherProfilePage({
               <div className="flex flex-col items-center gap-[2px]">
                 <p className="text-bodySmall">전공</p>
                 <p className="text-labelMedium text-gray600">
-                  {userData?.major}
+                  {userData?.user_major}
                 </p>
               </div>
             </div>
