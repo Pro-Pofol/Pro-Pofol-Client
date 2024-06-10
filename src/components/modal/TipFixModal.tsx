@@ -6,8 +6,8 @@ import { Dispatch, SetStateAction, useCallback, useState } from 'react'
 import { Button, Input } from '..'
 import { UploadTipType } from '@/types'
 import { getCookie, toast } from '@/utils'
-import { fixTip, postTip } from '@/services'
 import { useRouter } from 'next/navigation'
+import { fixTip } from '@/services'
 
 interface TipModalType {
   click: Dispatch<SetStateAction<boolean>>

@@ -20,7 +20,5 @@ export const fixTip = async (
       title: title,
       content: content,
     },
-  }).then((response) => {
-    return response.data
   })
 }
