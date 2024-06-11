@@ -18,7 +18,7 @@ export default function Detail({ params }: { params: { id: number } }) {
 
   const getData = async () => {
     const data: ApplicationType = await getApplicationDetail(params.id)
-    const user: UserType = await getUser(data.post_writer_id)
+    const user: UserType = await getUser(data.writer_id)
     setUserData(user)
     setDetailData(data)
   }
@@ -29,8 +29,8 @@ export default function Detail({ params }: { params: { id: number } }) {
   }
 
   const DateFormat = () => {
-    if (detailData?.post_created_at) {
-      const DateObj = new Date(detailData.post_created_at)
+    if (detailData?.created_at) {
+      const DateObj = new Date(detailData.created_at)
 
       const year = String(DateObj.getFullYear())
       let month = String(DateObj.getMonth() + 1)
@@ -54,7 +54,7 @@ export default function Detail({ params }: { params: { id: number } }) {
   return (
     <>
       {modal && (
-        <ApplicationDeleteModal postId={detailData?.post_id} click={setModal} />
+        <ApplicationDeleteModal postId={detailData?.id} click={setModal} />
       )}
       <section className="w-full flex justify-center">
         <article className="flex flex-col w-[50%] min-w-[600px] mt-16 gap-10">
@@ -83,22 +83,22 @@ export default function Detail({ params }: { params: { id: number } }) {
           <div className="flex flex-col gap-4">
             <div>
               <span className="px-4 py-[6px] text-attention bg-attentionBackground text-bodySmall rounded-full">
-                {detailData?.post_post_type === 'Portfolio'
+                {detailData?.post_type === 'Portfolio'
                   ? '포트폴리오'
-                  : detailData?.post_post_type === 'Resume'
+                  : detailData?.post_type === 'Resume'
                     ? '이력서'
-                    : detailData?.post_post_type === 'PersonalStatement'
+                    : detailData?.post_type === 'PersonalStatement'
                       ? '자기소개서'
                       : ''}
               </span>
             </div>
             <h1 className="text-headlineSmall text-black">
-              {detailData?.post_title}
+              {detailData?.title}
             </h1>
             <div className="flex items-center gap-2 text-gray600">
               <p
                 onClick={() =>
-                  route.push(`/profile/${detailData?.post_writer_id}`)
+                  route.push(`/profile/${detailData?.writer_id}`)
                 }
                 className="cursor-pointer"
               >
@@ -118,7 +118,7 @@ export default function Detail({ params }: { params: { id: number } }) {
                 <p className="text-bodySmall text-black">자료분야</p>
                 <div className="flex items-center gap-2">
                   <p className="text-labelMedium text-gray600">
-                    {detailData?.post_major}
+                    {detailData?.major}
                   </p>
                 </div>
               </div>
@@ -138,17 +138,17 @@ export default function Detail({ params }: { params: { id: number } }) {
           <div className="bg-gray200 h-[1px]" />
           <div className="flex flex-col gap-4 pb-[120px]">
             <p className="text-titleSmall text-gray950">자료 미리보기</p>
-            <embed className="w-full h-[100vh]" src={detailData?.post_link} />
-            {detailData?.post_link && (
+            <embed className="w-full h-[100vh]" src={detailData?.link} />
+            {detailData?.link && (
               <Link
-                href={detailData?.post_link}
+                href={detailData?.link}
                 target="_blank"
                 className="flex itmes-center justify-between p-4 border border-gray200 bg-gray50 rounded-xl cursor-pointer"
               >
                 <div className="flex items-center gap-3">
                   <p className="text-bodyMedium text-gray950">자료링크 이동</p>
                   <p className="w-[400px] text-labelMedium text-gray600 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {detailData.post_link}
+                    {detailData.link}
                   </p>
                 </div>
                 <Linking className="text-gray800" />
