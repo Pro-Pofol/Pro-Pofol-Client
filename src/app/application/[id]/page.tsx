@@ -97,7 +97,9 @@ export default function Detail({ params }: { params: { id: number } }) {
             </h1>
             <div className="flex items-center gap-2 text-gray600">
               <p
-                onClick={() => route.push(`/profile/${detailData?.writer_id}`)}
+                onClick={() =>
+                  route.push(`/profile/${detailData?.writer_id}`)
+                }
                 className="cursor-pointer"
               >
                 {userData?.name}

@@ -1,9 +1,9 @@
 'use client'
 import { ApplicationBox } from "@/components"
 import { getApplicationData } from "@/services"
-import { ApplicationFileType, ApplicationPreviewType, MajorType, PostSearchType } from "@/types"
+import { ApplicationFileType, ApplicationSearchPreviewType, MajorType, PostSearchType } from "@/types"
 import { getCookie, toast } from "@/utils"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import EmptyDataSection from "./EmptyDataSection"
 
@@ -11,9 +11,8 @@ const ShowSection = () => {
     const [hasToken, setHasToken] = useState<boolean>(false)
     const [orderType, setOrderType] = useState<'ASC' | 'DESC'>('ASC')
     const [searchWord, setSearchWord] = useState<string>('')
-    const [applicationData, setApplicationData] = useState<ApplicationPreviewType[]>([])
+    const [applicationData, setApplicationData] = useState<ApplicationSearchPreviewType[]>([])
     const searchParams = useSearchParams()
-    const router = useRouter()
 
     const getData = useCallback(async (data: PostSearchType) => {
         const token = getCookie('access_token')
@@ -84,7 +83,12 @@ const ShowSection = () => {
                                 applicationData.map((item, index) =>
                                     <ApplicationBox
                                         key={index}
-                                        {...item}
+                                        post_id={item.id}
+                                        post_major={item.major}
+                                        post_created_at={item.created_at}
+                                        post_post_type={item.post_type}
+                                        post_title={item.title}
+                                        post_writer_name={item.writer_name}
                                     />
                                 )
                             }

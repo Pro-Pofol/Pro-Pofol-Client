@@ -1,9 +1,8 @@
-import { ApplicationPreviewType } from "@/types/applicationPreview.type"
 import { instance } from "../interceptor"
-import { PostSearchType } from "@/types"
+import { ApplicationSearchPreviewType, PostSearchType } from "@/types"
 
 interface GetApplicationDataResponseType {
-    posts: ApplicationPreviewType[]
+    posts: ApplicationSearchPreviewType[]
 }
 
 export const getApplicationData = async (token: string, data: PostSearchType) => {

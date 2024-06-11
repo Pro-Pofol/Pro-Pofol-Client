@@ -19,6 +19,11 @@ const tagColor: Record<ApplicationFileType, string> = {
     Resume: 'bg-gray100 text-gray500',
 }
 
+interface ApplicationBoxProps extends Omit<ApplicationPreviewType, "post_writer_id"> {
+    post_writer_id?: string
+    post_writer_name?: string
+}
+
 /**
  * 지원서에 관한 정보를 간략하게 표시해주는 컴폰전트입니다.
  * 
@@ -29,18 +34,18 @@ const tagColor: Record<ApplicationFileType, string> = {
     <ApplicationBox tag="포트폴리오" title="제목" name="유저이름" mainMajor="Frontend" />
 ```
  */
-export const ApplicationBox = ({ post_id, post_title, post_post_type, post_writer_id, post_major, post_created_at }: ApplicationPreviewType) => {
+export const ApplicationBox = ({ post_id, post_title, post_post_type, post_writer_id, post_major, post_created_at, post_writer_name  }: ApplicationBoxProps) => {
     const [user, setUser] = useState<UserType | null>(null)
 
     const getData = useCallback(async () => {
-        if (!post_writer_id) return
+        if (!post_writer_id || post_writer_name) return
         const userData = await getUser(post_writer_id)
         setUser(userData)
-    }, [post_writer_id])
+    }, [post_writer_id, post_writer_name])
 
     useEffect(() => {
         getData()
-    }, [post_writer_id])
+    }, [post_writer_id, post_writer_name])
 
     return (
         <Link
@@ -52,7 +57,7 @@ export const ApplicationBox = ({ post_id, post_title, post_post_type, post_write
                 <span className="text-titleMedium sm:text-titleSmall text-black group-hover:text-blue500 truncate transition-colors">{post_title}</span>
                 <div className="flex justify-between items-center flex-wrap text-nowrap">
                     <div className="text-bodySmall sm:text-labelMedium text-gray600 flex items-center gap-2">
-                        <span>{user ? user.name : ''}</span>
+                        <span>{post_writer_name || (user ? user.name : '')}</span>
                         <div className="w-0.5 h-0.5 bg-gray600 rounded-full" />
                         <span>{dateToString(post_created_at)}</span>
                     </div>

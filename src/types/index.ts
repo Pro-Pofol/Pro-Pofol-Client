@@ -8,4 +8,5 @@ export { type TipBoxType } from './tipType'
 
 export { type ApplicationFileType } from './applicationFile.type'
 export { type ApplicationPreviewType } from './applicationPreview.type'
+export { type ApplicationSearchPreviewType } from './applicationSearchPreview.type'
 export * from './post'
