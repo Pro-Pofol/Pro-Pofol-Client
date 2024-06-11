@@ -2,11 +2,13 @@ import { MajorType } from './majorType'
 import { PostType } from './postType'
 
 export type ApplicationType = {
-  post_id: number
-  post_post_type: PostType
-  post_title: string
-  post_link?: string
-  post_major: MajorType
-  post_created_at: Date
-  post_writer_id: string
+  id: number
+  post_type: PostType
+  title: string
+  link?: string
+  major: MajorType
+  content: string
+  created_at: Date
+  writer_id: string
+  user_oauth_id: string
 }

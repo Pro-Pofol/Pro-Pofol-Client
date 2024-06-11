@@ -103,7 +103,12 @@ export default function Detail({ params }: { params: { id: number } }) {
               {detailData?.title}
             </h1>
             <div className="flex items-center gap-2 text-gray600">
-              <p>{userData?.name}</p>
+              <p
+                className="cursor-pointer"
+                onClick={() => route.push(`/profile/${detailData?.writer_id}`)}
+              >
+                {userData?.name}
+              </p>
               <p>﹒</p>
               <p>{DateFormat()}</p>
             </div>

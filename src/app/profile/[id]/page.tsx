@@ -15,7 +15,6 @@ export default function AnotherProfilePage({
 }) {
   const [userData, setUserData] = useState<UserType>()
   const [follow, setFollow] = useState<boolean>(false)
-  console.log(follow)
 
   const getData = async () => {
     const user: UserType = await getUser(String(params.id))
@@ -24,9 +23,8 @@ export default function AnotherProfilePage({
 
   const HandleFollow = async () => {
     if (userData) {
-      const res = await userFollow(userData?.oauth_id)
-      console.log(res)
-      setFollow(true)
+      await userFollow(userData?.oauth_id)
+      setFollow(!follow)
     }
   }
 
