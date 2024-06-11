@@ -67,7 +67,7 @@ const SideBar = () => {
 
     return (
         <section className="py-6 px-10 gap-6 flex flex-col border-r border-gray200 w-[400px] h-[1000px] sticky top-0 left-0">
-            <div className="py-3 px-5 border border-gray200 rounded-full bg-gray50 flex gap-3 h-fit focus-within:bg-blue50 focus-within:border-blue400">
+            <div className="py-3 px-5 border border-gray200 rounded-full bg-gray50 flex gap-3 h-fit focus-within:bg-blue50 focus-within:border-blue400 focus-within:text-blue400">
                 <label htmlFor="searchInput"><Search /></label>
                 <input
                     id="searchInput"
