@@ -7,8 +7,7 @@ export type ApplicationType = {
   title: string
   link?: string
   major: MajorType
-  content: string
+  content?: string
   created_at: Date
   writer_id: string
-  user_oauth_id: string
 }

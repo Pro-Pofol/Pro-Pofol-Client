@@ -14,7 +14,6 @@ export const ShowSection = () => {
   const handleKeyPress = async (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       const res: TipBoxType[] = await searchTip(search, orderType)
-      console.log(search)
       setData(res)
     }
   }

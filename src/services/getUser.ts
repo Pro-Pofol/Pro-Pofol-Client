@@ -1,8 +1,7 @@
-import { UserType } from '@/types'
 import { instance } from './interceptor'
 
 export const getUser = async (oauthId: string) => {
-  return await instance<UserType>({
+  return await instance({
     method: 'GET',
     url: `/users/${oauthId}`,
   }).then((response) => {
