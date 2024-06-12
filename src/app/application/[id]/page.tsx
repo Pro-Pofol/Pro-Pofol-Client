@@ -1,12 +1,13 @@
 'use client'
 
-import { Arrow, Bag, Delete, FileUpload, Linking, More } from '@/assets'
+import { Arrow, Bag, Delete, Download, FileUpload, Linking, More } from '@/assets'
 import { ApplicationDeleteModal } from '@/components/modal/ApplicationDelete'
 import { getApplicationDetail, getMe, getUser } from '@/services'
 import { ApplicationType, UserType } from '@/types'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 export default function Detail({ params }: { params: { id: number } }) {
   const [open, setOpen] = useState<boolean>(false)
@@ -14,6 +15,8 @@ export default function Detail({ params }: { params: { id: number } }) {
   const [detailData, setDetailData] = useState<ApplicationType>()
   const [userData, setUserData] = useState<UserType>()
   const [myData, setMyData] = useState<UserType>()
+  const [fileLink, setFileLink] = useState<string>('')
+  const [fileData, setFileData] = useState<File | null>(null)
   const route = useRouter()
 
   const getData = async () => {
@@ -21,6 +24,28 @@ export default function Detail({ params }: { params: { id: number } }) {
     const user: UserType = await getUser(data.writer_id)
     setUserData(user)
     setDetailData(data)
+    if (data.link?.split('/')[2].match('s3.ap-northeast-2.amazonaws.com')) {
+      axios.get(data.link || '', {
+        responseType: 'arraybuffer',
+        headers: {
+          'Content-Type': 'application/pdf',
+          Accept: 'application/pdf',
+        },
+      }).then(res => {
+        const blobData = new Blob([res.data], { type: 'application/pdf' })
+        const Link = window.URL.createObjectURL(blobData)
+
+        setFileLink(Link)
+        setFileData(
+          new File([blobData],
+            `${Link.split('/').at(-1)}.pdf`
+            || `${data.major}_${data.post_type}_${data.id}.pdf`,
+            { type: blobData.type }
+          )
+        )
+        route.refresh()
+      })
+    }
   }
 
   const MyData = async () => {
@@ -46,6 +71,13 @@ export default function Detail({ params }: { params: { id: number } }) {
     }
   }
 
+  const fileSizeToString = useCallback((size: number) => {
+    if (size < 1000) return `${size}B`
+    if (size < 1000000) return `${(size / 1000).toFixed(1)}KB`
+    if (size < 1000000000) return `${(size / 1000000).toFixed(1)}MB`
+    return `1GB+`
+  }, [])
+
   useEffect(() => {
     getData()
     MyData()
@@ -59,7 +91,7 @@ export default function Detail({ params }: { params: { id: number } }) {
       <section className="w-full flex justify-center">
         <article className="flex flex-col w-[50%] min-w-[600px] mt-16 gap-10">
           <div className="flex justify-between items-center">
-            <div className="p-2 border border-gray200 rounded-lg cursor-pointer">
+            <div className="p-2 border border-gray200 rounded-lg cursor-pointer" onClick={() => route.back()}>
               <Arrow direction="left" />
             </div>
             {userData?.oauth_id === myData?.oauth_id && (
@@ -130,7 +162,7 @@ export default function Detail({ params }: { params: { id: number } }) {
               <div className="flex flex-col gap-[2px]">
                 <p className="text-bodySmall text-black">자료형식</p>
                 <div className="flex items-center gap-2">
-                  <p className="text-labelMedium text-gray600">Web Link</p>
+                  <p className="text-labelMedium text-gray600">{fileLink ? 'PDF' : 'Web Link'}</p>
                 </div>
               </div>
             </div>
@@ -138,20 +170,28 @@ export default function Detail({ params }: { params: { id: number } }) {
           <div className="bg-gray200 h-[1px]" />
           <div className="flex flex-col gap-4 pb-[120px]">
             <p className="text-titleSmall text-gray950">자료 미리보기</p>
-            <embed className="w-full h-[100vh]" src={detailData?.link} />
+            <embed className="w-full h-[100vh]" src={fileLink || detailData?.link} />
             {detailData?.link && (
               <Link
-                href={detailData?.link}
+                href={fileLink || detailData?.link}
                 target="_blank"
                 className="flex itmes-center justify-between p-4 border border-gray200 bg-gray50 rounded-xl cursor-pointer"
+                download={fileData?.name}
               >
-                <div className="flex items-center gap-3">
-                  <p className="text-bodyMedium text-gray950">자료링크 이동</p>
-                  <p className="w-[400px] text-labelMedium text-gray600 whitespace-nowrap overflow-hidden text-ellipsis">
-                    {detailData.link}
+                <div className="flex items-center gap-3 break-keep">
+                  <p className="text-bodyMedium text-gray950">
+                    {fileLink ? '자료 파일 다운로드' : '자료링크 이동'}
+                  </p>
+                  <p className={`${fileLink ? 'w-auto' : 'w-[400px] truncate'} text-labelMedium text-gray600`}>
+                    {(fileData) ? `${fileData.name} (${fileSizeToString(fileData.size)})` : detailData.link}
                   </p>
                 </div>
-                <Linking className="text-gray800" />
+                {
+                  fileLink ?
+                    <Download className="text-gray800" />
+                    :
+                    <Linking className="text-gray800" />
+                }
               </Link>
             )}
           </div>
