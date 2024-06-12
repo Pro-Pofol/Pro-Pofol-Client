@@ -3,15 +3,17 @@ import { getMe, getRecommend } from '@/services'
 
 export default async function MyApplicationPage() {
   const { oauth_id } = await getMe()
-  const applicationData = await getRecommend().then((value) =>
-    value.data.posts
-      .filter(({ post_writer_id }) => oauth_id === post_writer_id)
-      .sort(
-        (a, b) =>
-          new Date(b.post_created_at).getTime() -
-          new Date(a.post_created_at).getTime(),
-      ),
-  )
+  const applicationData = await getRecommend()
+    .then((value) =>
+      value.data.posts
+        .filter(({ post_writer_id }) => oauth_id === post_writer_id)
+        .sort(
+          (a, b) =>
+            new Date(b.post_created_at).getTime() -
+            new Date(a.post_created_at).getTime(),
+        ),
+    )
+    .catch(() => [])
 
   return (
     <main className="min-h-[100dvh] p-[60px_0_120px] flex justify-center">

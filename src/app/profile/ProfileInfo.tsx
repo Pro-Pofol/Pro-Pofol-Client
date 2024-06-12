@@ -9,24 +9,27 @@ import { TipBoxType } from '@/types'
 export const ProfileInfo = async () => {
   const { generation, user_major, name, oauth_id, profile_image } =
     await getMe()
-  const applicationData = await getRecommend().then((value) =>
-    value.data.posts
-      .filter(({ post_writer_id }) => oauth_id === post_writer_id)
-      .sort(
-        (a, b) =>
-          new Date(b.post_created_at).getTime() -
-          new Date(a.post_created_at).getTime(),
-      ),
-  )
-  const tipData: TipBoxType[] = await recommendTip().then(
-    (value: TipBoxType[]) =>
+  const applicationData = await getRecommend()
+    .then((value) =>
+      value.data.posts
+        .filter(({ post_writer_id }) => oauth_id === post_writer_id)
+        .sort(
+          (a, b) =>
+            new Date(b.post_created_at).getTime() -
+            new Date(a.post_created_at).getTime(),
+        ),
+    )
+    .catch(() => [])
+  const tipData: TipBoxType[] = await recommendTip()
+    .then((value: TipBoxType[]) =>
       value
         .filter(({ writer_id }) => oauth_id === writer_id)
         .sort(
           (a, b) =>
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
         ),
-  )
+    )
+    .catch(() => [])
 
   return (
     <>

@@ -4,15 +4,16 @@ import { TipBoxType } from '@/types'
 
 export default async function MyTipPage() {
   const { oauth_id } = await getMe()
-  const tipData: TipBoxType[] = await recommendTip().then(
-    (value: TipBoxType[]) =>
+  const tipData: TipBoxType[] = await recommendTip()
+    .then((value: TipBoxType[]) =>
       value
         .filter(({ writer_id }) => oauth_id === writer_id)
         .sort(
           (a, b) =>
             new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
         ),
-  )
+    )
+    .catch(() => [])
 
   return (
     <main className="min-h-[100dvh] p-[60px_0_120px] flex justify-center">
