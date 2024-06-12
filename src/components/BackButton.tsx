@@ -1,3 +1,5 @@
+'use client'
+
 import { Arrow } from '@/assets'
 import { useRouter } from 'next/navigation'
 
