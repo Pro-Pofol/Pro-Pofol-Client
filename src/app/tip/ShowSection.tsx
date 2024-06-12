@@ -83,9 +83,9 @@ export const ShowSection = () => {
         </div>
       </div>
       <div className="grid grid-cols-3 w-[70%] min-w-[800px] h-fit gap-x-3 gap-y-6 px-10">
-        {data.map((item, index) => (
+        {data.map(item => (
           <TipBox
-            key={index}
+            key={item.id}
             date={String(item.created_at)}
             name={item.writer_id}
             content={item.content}
