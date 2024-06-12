@@ -1,7 +1,7 @@
 'use client'
 
-import { Arrow, Delete, More, Pen } from '@/assets'
-import { TipDeleteModal, TipFixModal } from '@/components'
+import { Delete, More, Pen } from '@/assets'
+import { BackButton, TipDeleteModal, TipFixModal } from '@/components'
 import { getMe, getTipDetail, getUser } from '@/services'
 import { TipBoxType, UserType } from '@/types'
 import { useRouter } from 'next/navigation'
@@ -67,14 +67,9 @@ export default function Detail({ params }: { params: { id: number } }) {
         <TipDeleteModal click={setDeleteModal} postId={detailData?.id} />
       )}
       <section className="w-full flex justify-center">
-        <article className="flex flex-col w-[50%] min-w-[600px] mt-16 gap-10">
+        <article className="flex flex-col w-full max-w-[848px] mt-16 gap-10 px-6">
           <div className="flex justify-between items-center">
-            <div
-              onClick={() => route.back()}
-              className="p-2 border border-gray200 rounded-lg cursor-pointer"
-            >
-              <Arrow direction="left" />
-            </div>
+            <BackButton />
             {userData?.oauth_id === myData?.oauth_id && (
               <div
                 className="cursor-pointer relative"
@@ -82,18 +77,19 @@ export default function Detail({ params }: { params: { id: number } }) {
               >
                 <More />
                 {open && (
-                  <div className="absolute top-8 right-1 rounded-xl w-[160px] border border-gray200 bg-gray50">
+                  <div className="absolute top-8 right-1 rounded-xl w-[180px] p-1 border border-gray200 bg-gray50">
                     <button
                       onClick={() => setFixModal(!fixModal)}
-                      className="flex items-center text-labelMedium gap-2 p-3"
+                      className="flex items-center text-labelMedium gap-2 p-3 hover:bg-gray100 w-full rounded-lg transition-colors"
                     >
-                      <Pen size={24} className="text-gray800" />팁 수정하기
+                      <Pen size={16} className="text-gray800" />팁 수정하기
                     </button>
                     <button
                       onClick={() => setDeleteModal(!deleteModal)}
-                      className="flex items-center text-labelMedium gap-2 p-3"
+                      className="flex items-center text-labelMedium gap-2 p-3 hover:bg-gray100 w-full rounded-lg transition-colors hover:text-labelLarge hover:text-critical group"
                     >
-                      <Delete className="text-gray800" />팁 삭제하기
+                      <Delete className="text-gray800 group-hover:text-critical" />
+                      팁 삭제하기
                     </button>
                   </div>
                 )}

@@ -10,7 +10,7 @@ export const Pen = ({ size = 24, onClick, className = '' }: PropsType) => {
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
-      viewBox="0 0 24 24"
+      viewBox="0 0 16 16"
       fill="none"
       onClick={onClick}
       className={`${onClick ? 'cursor-pointer ' : ''}${className}`}

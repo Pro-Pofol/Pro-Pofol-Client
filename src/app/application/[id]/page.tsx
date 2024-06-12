@@ -1,6 +1,6 @@
 'use client'
 
-import { Arrow, Bag, Delete, Download, FileUpload, Linking, More } from '@/assets'
+import { Bag, Delete, Download, FileUpload, Linking, More } from '@/assets'
 import { ApplicationDeleteModal } from '@/components/modal/ApplicationDelete'
 import { getApplicationDetail, getMe, getUser } from '@/services'
 import { ApplicationType, UserType } from '@/types'
@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { BackButton } from '@/components'
 
 export default function Detail({ params }: { params: { id: number } }) {
   const [open, setOpen] = useState<boolean>(false)
@@ -26,26 +27,29 @@ export default function Detail({ params }: { params: { id: number } }) {
     setUserData(user)
     setDetailData(data)
     if (data.link?.split('/')[2].match('s3.ap-northeast-2.amazonaws.com')) {
-      axios.get(data.link || '', {
-        responseType: 'arraybuffer',
-        headers: {
-          'Content-Type': 'application/pdf',
-          Accept: 'application/pdf',
-        },
-      }).then(res => {
-        const blobData = new Blob([res.data], { type: 'application/pdf' })
-        const Link = window.URL.createObjectURL(blobData)
+      axios
+        .get(data.link || '', {
+          responseType: 'arraybuffer',
+          headers: {
+            'Content-Type': 'application/pdf',
+            Accept: 'application/pdf',
+          },
+        })
+        .then((res) => {
+          const blobData = new Blob([res.data], { type: 'application/pdf' })
+          const Link = window.URL.createObjectURL(blobData)
 
-        setEmbedReady(true)
-        setFileLink(Link)
-        setFileData(
-          new File([blobData],
-            `${Link.split('/').at(-1)}.pdf`
-            || `${data.major}_${data.post_type}_${data.id}.pdf`,
-            { type: blobData.type }
+          setEmbedReady(true)
+          setFileLink(Link)
+          setFileData(
+            new File(
+              [blobData],
+              `${Link.split('/').at(-1)}.pdf` ||
+                `${data.major}_${data.post_type}_${data.id}.pdf`,
+              { type: blobData.type },
+            ),
           )
-        )
-      })
+        })
     } else {
       setEmbedReady(true)
     }
@@ -93,11 +97,9 @@ export default function Detail({ params }: { params: { id: number } }) {
         <ApplicationDeleteModal postId={detailData?.id} click={setModal} />
       )}
       <section className="w-full flex justify-center">
-        <article className="flex flex-col w-[50%] min-w-[600px] mt-16 gap-10">
+        <article className="flex flex-col w-full max-w-[848px] px-6 mt-16 gap-10">
           <div className="flex justify-between items-center">
-            <div className="p-2 border border-gray200 rounded-lg cursor-pointer" onClick={() => route.back()}>
-              <Arrow direction="left" />
-            </div>
+            <BackButton />
             {userData?.oauth_id === myData?.oauth_id && (
               <div
                 className="cursor-pointer relative"
@@ -107,9 +109,9 @@ export default function Detail({ params }: { params: { id: number } }) {
                 {open && (
                   <button
                     onClick={() => setModal(!modal)}
-                    className="absolute top-8 right-1 flex items-center text-labelMedium gap-2 p-3 rounded-xl w-[160px] border border-gray200 bg-gray50"
+                    className="absolute top-8 right-1 flex items-center text-labelMedium gap-2 p-3 border border-gray200 bg-gray50 hover:bg-gray100 w-[180px] rounded-lg transition-colors hover:text-labelLarge hover:text-critical group"
                   >
-                    <Delete className="text-gray800" />
+                    <Delete className="text-gray800 group-hover:text-critical" />
                     자료 삭제하기
                   </button>
                 )}
@@ -133,9 +135,7 @@ export default function Detail({ params }: { params: { id: number } }) {
             </h1>
             <div className="flex items-center gap-2 text-gray600">
               <p
-                onClick={() =>
-                  route.push(`/profile/${detailData?.writer_id}`)
-                }
+                onClick={() => route.push(`/profile/${detailData?.writer_id}`)}
                 className="cursor-pointer"
               >
                 {userData?.name}
@@ -166,7 +166,9 @@ export default function Detail({ params }: { params: { id: number } }) {
               <div className="flex flex-col gap-[2px]">
                 <p className="text-bodySmall text-black">자료형식</p>
                 <div className="flex items-center gap-2">
-                  <p className="text-labelMedium text-gray600">{fileLink ? 'PDF' : 'Web Link'}</p>
+                  <p className="text-labelMedium text-gray600">
+                    {fileLink ? 'PDF' : 'Web Link'}
+                  </p>
                 </div>
               </div>
             </div>
@@ -174,10 +176,12 @@ export default function Detail({ params }: { params: { id: number } }) {
           <div className="bg-gray200 h-[1px]" />
           <div className="flex flex-col gap-4 pb-[120px]">
             <p className="text-titleSmall text-gray950">자료 미리보기</p>
-            {
-              embedReady &&
-              <embed className="w-full h-[100vh]" src={fileLink || detailData?.link} />
-            }
+            {embedReady && (
+              <embed
+                className="w-full h-[100vh] overflow-hidden rounded-lg"
+                src={fileLink || detailData?.link}
+              />
+            )}
             {detailData?.link && (
               <Link
                 href={fileLink || detailData?.link}
@@ -189,16 +193,20 @@ export default function Detail({ params }: { params: { id: number } }) {
                   <p className="text-bodyMedium text-gray950">
                     {fileLink ? '자료 파일 다운로드' : '자료링크 이동'}
                   </p>
-                  <p className={`${fileLink ? 'w-auto' : 'w-[400px] truncate'} text-labelMedium text-gray600`}>
-                    {embedReady && ((fileData) ? `${fileData.name} (${fileSizeToString(fileData.size)})` : detailData.link)}
+                  <p
+                    className={`${fileLink ? 'w-auto' : 'w-[400px] truncate'} text-labelMedium text-gray600`}
+                  >
+                    {embedReady &&
+                      (fileData
+                        ? `${fileData.name} (${fileSizeToString(fileData.size)})`
+                        : detailData.link)}
                   </p>
                 </div>
-                {
-                  fileLink ?
-                    <Download className="text-gray800" />
-                    :
-                    <Linking className="text-gray800" />
-                }
+                {fileLink ? (
+                  <Download className="text-gray800" />
+                ) : (
+                  <Linking className="text-gray800" />
+                )}
               </Link>
             )}
           </div>
