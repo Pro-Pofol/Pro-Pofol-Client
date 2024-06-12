@@ -20,7 +20,14 @@ export const ShowSection = () => {
 
   const getData = async () => {
     const res: TipBoxType[] = await recommendTip()
-    setData(res)
+    const a = res
+      .sort((a, b) => {
+        return (
+          new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+        )
+      })
+      .reverse()
+    setData(a)
   }
 
   useEffect(() => {
