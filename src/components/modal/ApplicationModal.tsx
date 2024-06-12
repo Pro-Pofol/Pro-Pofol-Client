@@ -7,6 +7,7 @@ import { getCookie, toast } from "@/utils";
 import { ApplicationFileType, MajorType } from "@/types";
 import { postLink } from "@/services/post/postLink";
 import { postFile } from "@/services";
+import { useRouter } from "next/navigation";
 
 interface ApplicationModalType {
     click: Dispatch<SetStateAction<boolean>>
@@ -45,6 +46,7 @@ export const ApplicationModal = ({ click, change = () => { } }: ApplicationModal
         file: null,
         major: []
     })
+    const router = useRouter()
 
     const changeData = useCallback(<T, _>(name: string, value: T): void => {
         setData((prev) => ({ ...prev, [name]: value }))
@@ -115,6 +117,7 @@ export const ApplicationModal = ({ click, change = () => { } }: ApplicationModal
             }
 
             toast.success('성공적으로 업로드되었습니다!')
+            router.refresh()
             change('')
             click(false)
         } catch {
