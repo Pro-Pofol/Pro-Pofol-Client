@@ -17,6 +17,7 @@ export default function Detail({ params }: { params: { id: number } }) {
   const [myData, setMyData] = useState<UserType>()
   const [fileLink, setFileLink] = useState<string>('')
   const [fileData, setFileData] = useState<File | null>(null)
+  const [embedReady, setEmbedReady] = useState<boolean>(false)
   const route = useRouter()
 
   const getData = async () => {
@@ -35,6 +36,7 @@ export default function Detail({ params }: { params: { id: number } }) {
         const blobData = new Blob([res.data], { type: 'application/pdf' })
         const Link = window.URL.createObjectURL(blobData)
 
+        setEmbedReady(true)
         setFileLink(Link)
         setFileData(
           new File([blobData],
@@ -44,6 +46,8 @@ export default function Detail({ params }: { params: { id: number } }) {
           )
         )
       })
+    } else {
+      setEmbedReady(true)
     }
     route.refresh()
   }
@@ -170,7 +174,10 @@ export default function Detail({ params }: { params: { id: number } }) {
           <div className="bg-gray200 h-[1px]" />
           <div className="flex flex-col gap-4 pb-[120px]">
             <p className="text-titleSmall text-gray950">자료 미리보기</p>
-            <embed className="w-full h-[100vh]" src={fileLink || detailData?.link} />
+            {
+              embedReady &&
+              <embed className="w-full h-[100vh]" src={fileLink || detailData?.link} />
+            }
             {detailData?.link && (
               <Link
                 href={fileLink || detailData?.link}
@@ -183,7 +190,7 @@ export default function Detail({ params }: { params: { id: number } }) {
                     {fileLink ? '자료 파일 다운로드' : '자료링크 이동'}
                   </p>
                   <p className={`${fileLink ? 'w-auto' : 'w-[400px] truncate'} text-labelMedium text-gray600`}>
-                    {(fileData) ? `${fileData.name} (${fileSizeToString(fileData.size)})` : detailData.link}
+                    {embedReady && ((fileData) ? `${fileData.name} (${fileSizeToString(fileData.size)})` : detailData.link)}
                   </p>
                 </div>
                 {
