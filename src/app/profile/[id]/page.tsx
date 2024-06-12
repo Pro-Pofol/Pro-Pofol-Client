@@ -1,12 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Bag, DefaultProfile, GradientImg, User } from '@/assets'
+import { Arrow, Bag, DefaultProfile, GradientImg, User } from '@/assets'
 import { ApplicationBox, Button, TipBox } from '@/components'
 import { applicationData, tipData } from '@/constants'
-import { getUser, userFollow } from '@/services'
+import { getRecommend, getUser, recommendTip, userFollow } from '@/services'
 import Image from 'next/image'
-import { UserType } from '@/types'
+import { ApplicationPreviewType, TipBoxType, UserType } from '@/types'
+import Link from 'next/link'
 
 export default function AnotherProfilePage({
   params,
@@ -15,10 +16,35 @@ export default function AnotherProfilePage({
 }) {
   const [userData, setUserData] = useState<UserType>()
   const [follow, setFollow] = useState<boolean>(false)
+  const [application, setApplication] = useState<ApplicationPreviewType[]>([])
+  const [tip, setTip] = useState<TipBoxType[]>([])
 
   const getData = async () => {
     const user: UserType = await getUser(String(params.id))
     setUserData(user)
+
+    const applicationData = await getRecommend().then((value) =>
+      value.data.posts
+        .filter(({ post_writer_id }) => userData?.oauth_id === post_writer_id)
+        .sort(
+          (a, b) =>
+            new Date(b.post_created_at).getTime() -
+            new Date(a.post_created_at).getTime(),
+        ),
+    )
+    setApplication(applicationData)
+
+    const tipData: TipBoxType[] = await recommendTip().then(
+      (value: TipBoxType[]) =>
+        value
+          .filter(({ writer_id }) => userData?.oauth_id === writer_id)
+          .sort(
+            (a, b) =>
+              new Date(b.created_at).getTime() -
+              new Date(a.created_at).getTime(),
+          ),
+    )
+    setTip(tipData)
   }
 
   const HandleFollow = async () => {
@@ -58,7 +84,7 @@ export default function AnotherProfilePage({
       <section className="flex flex-col items-center gap-10 p-[60px_40px_120px] sm:px-6 max-w-[880px] w-full">
         <div className="flex flex-col items-center gap-1 py-6">
           <p className="text-titleMedium">{userData?.name}</p>
-          <p className="text-bodySmall text-gray600">팔로잉 0 | 팔로워 0</p>
+          {/* <p className="text-bodySmall text-gray600">팔로잉 0 | 팔로워 0</p> */}
         </div>
         <div className="flex gap-3">
           {follow ? (
@@ -102,33 +128,70 @@ export default function AnotherProfilePage({
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 자료</h5>
+            {application.length > 4 && (
+              <Link
+                href="/profile/application"
+                className="flex items-center text-gray600 group"
+              >
+                <p className="text-labelLarge">더보기</p>
+                <Arrow
+                  direction="right"
+                  size={16}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </Link>
+            )}
           </div>
-          {/* <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
-            {applicationData.map((value, index) => (
-              <ApplicationBox key={index} {...value} />
-            ))}
-          </div> */}
-          <div className="flex justify-center items-center h-[120px]">
-            <p className="text-bodyLarge text-gray500">
-              아직 공유한 지원서가 없어요.
-            </p>
-          </div>
+          {application.length ? (
+            <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
+              {applicationData.slice(0, 4).map((value, index) => (
+                <ApplicationBox key={index} {...value} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-[120px]">
+              <p className="text-bodyLarge text-gray500">
+                아직 공유한 지원서가 없어요.
+              </p>
+            </div>
+          )}
         </article>
         <div className="w-full h-[1px] bg-gray200"></div>
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 팁</h5>
+            {tip.length > 4 && (
+              <Link
+                href="/profile/tip"
+                className="flex items-center text-gray600 group"
+              >
+                <p className="text-labelLarge">더보기</p>
+                <Arrow
+                  direction="right"
+                  size={16}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </Link>
+            )}
           </div>
-          {/* <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
-            {tipData.map((value, index) => (
-              <TipBox key={index} {...value} />
-            ))}
-          </div> */}
-          <div className="flex justify-center items-center h-[120px]">
-            <p className="text-bodyLarge text-gray500">
-              아직 공유한 지원서 팁이 없어요.
-            </p>
-          </div>
+          {tip.length ? (
+            <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
+              {tip.slice(0, 4).map((value, index) => (
+                <TipBox
+                  name={value.writer_id}
+                  date={`${value.created_at}`}
+                  key={index}
+                  {...value}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-[120px]">
+              <p className="text-bodyLarge text-gray500">
+                아직 공유한 지원서 팁이 없어요.
+              </p>
+            </div>
+          )}
         </article>
       </section>
     </main>
