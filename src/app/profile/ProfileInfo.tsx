@@ -1,14 +1,33 @@
 import { Arrow, Bag, DefaultProfile, GradientImg, User } from '@/assets'
 import { ApplicationBox, Button, TipBox } from '@/components'
-import { applicationData, tipData } from '@/constants'
-import { getMe } from '@/services'
+import { getMe, getRecommend, recommendTip } from '@/services'
 import Image from 'next/image'
 import Link from 'next/link'
 import { LogoutButton } from './LogoutButton'
+import { TipBoxType } from '@/types'
 
 export const ProfileInfo = async () => {
   const { generation, user_major, name, oauth_id, profile_image } =
     await getMe()
+  const applicationData = await getRecommend().then((value) =>
+    value.data.posts
+      .filter(({ post_writer_id }) => oauth_id === post_writer_id)
+      .sort(
+        (a, b) =>
+          new Date(b.post_created_at).getTime() -
+          new Date(a.post_created_at).getTime(),
+      ),
+  )
+  const tipData: TipBoxType[] = await recommendTip().then(
+    (value: TipBoxType[]) =>
+      value
+        .filter(({ writer_id }) => oauth_id === writer_id)
+        .sort(
+          (a, b) =>
+            new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+        ),
+  )
+
   return (
     <>
       <div className="flex justify-center h-[180px] w-full relative">
@@ -69,55 +88,70 @@ export const ProfileInfo = async () => {
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 자료</h5>
-            {/* <Link
-              href="/profile/application"
-              className="flex items-center text-gray600 group"
-            >
-              <p className="text-labelLarge">더보기</p>
-              <Arrow
-                direction="right"
-                size={16}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </Link> */}
+            {applicationData.length > 4 && (
+              <Link
+                href="/profile/application"
+                className="flex items-center text-gray600 group"
+              >
+                <p className="text-labelLarge">더보기</p>
+                <Arrow
+                  direction="right"
+                  size={16}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </Link>
+            )}
           </div>
-          {/* <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
-            {applicationData.map((value, index) => (
-              <ApplicationBox key={index} {...value} />
-            ))}
-          </div> */}
-          <div className="flex justify-center items-center h-[120px]">
-            <p className="text-bodyLarge text-gray500">
-              아직 공유한 지원서가 없어요.
-            </p>
-          </div>
+          {applicationData.length ? (
+            <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
+              {applicationData.slice(0, 4).map((value, index) => (
+                <ApplicationBox key={index} {...value} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-[120px]">
+              <p className="text-bodyLarge text-gray500">
+                아직 공유한 지원서가 없어요.
+              </p>
+            </div>
+          )}
         </article>
         <div className="w-full h-[1px] bg-gray200"></div>
         <article className="flex flex-col gap-6 w-full">
           <div className="flex items-center justify-between w-full">
             <h5 className="text-titleSmall">공유한 지원서 팁</h5>
-            {/* <Link
-              href="/profile/tip"
-              className="flex items-center text-gray600 group"
-            >
-              <p className="text-labelLarge">더보기</p>
-              <Arrow
-                direction="right"
-                size={16}
-                className="group-hover:translate-x-1 transition-transform"
-              />
-            </Link> */}
+            {tipData.length > 4 && (
+              <Link
+                href="/profile/tip"
+                className="flex items-center text-gray600 group"
+              >
+                <p className="text-labelLarge">더보기</p>
+                <Arrow
+                  direction="right"
+                  size={16}
+                  className="group-hover:translate-x-1 transition-transform"
+                />
+              </Link>
+            )}
           </div>
-          {/* <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
-            {tipData.map((value, index) => (
-              <TipBox key={index} {...value} />
-            ))}
-          </div> */}
-          <div className="flex justify-center items-center h-[120px]">
-            <p className="text-bodyLarge text-gray500">
-              아직 공유한 지원서 팁이 없어요.
-            </p>
-          </div>
+          {tipData.length ? (
+            <div className="grid gap-3 grid-cols-2 sm:grid-cols-1">
+              {tipData.slice(0, 4).map((value, index) => (
+                <TipBox
+                  name={value.writer_id}
+                  date={`${value.created_at}`}
+                  key={index}
+                  {...value}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="flex justify-center items-center h-[120px]">
+              <p className="text-bodyLarge text-gray500">
+                아직 공유한 지원서 팁이 없어요.
+              </p>
+            </div>
+          )}
         </article>
       </section>
     </>
