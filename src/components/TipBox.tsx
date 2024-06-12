@@ -39,9 +39,9 @@ export const TipBox = ({ title, content, name, date, id }: TipBoxProps) => {
       {content === undefined ? (
         <div
           onClick={() => router.push(`/tip/${id}`)}
-          className="p-8 flex sm:flex-col w-full min-w-[240px] gap-2.5 justify-between items-center sm:items-start border border-gray100 bg-white rounded-3xl cursor-pointer"
+          className="p-8 flex sm:flex-col w-full min-w-[240px] gap-2.5 justify-between items-center sm:items-start border border-gray100 bg-white rounded-3xl cursor-pointer group"
         >
-          <span className="text-titleSmall text-black truncate w-full">
+          <span className="text-titleSmall text-black truncate w-full group-hover:text-blue500">
             {title}
           </span>
           <div className="text-bodySmall text-gray600 flex justify-end items-center gap-2 w-fit sm:w-full text-nowrap">

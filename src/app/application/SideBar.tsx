@@ -1,8 +1,8 @@
 'use client'
 import { Bag, Portfolio, Search } from "@/assets"
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import { SideSelect } from "./SideSelect"
-import { useParams, usePathname, useRouter, useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { ApplicationFileType, MajorType } from "@/types"
 
 type KindType = '모든 종류' | '포트폴리오' | '자기소개서' | '이력서'
@@ -36,33 +36,64 @@ const SideBar = () => {
         major: 'Frontend',
         searchWord: ''
     })
+    const timer = useRef<NodeJS.Timeout | null>(null)
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const changeData = useCallback((name: 'type' | 'major' | 'searchWord') => (value: string) => {
-        setData(prev => ({ ...prev, [name]: value }))
-    }, [])
+    const changeParams = useCallback((tmpData?: ApplicationDataModal) => {
+        if (timer.current) {
+            clearInterval(timer.current)
+            timer.current = null
+        }
 
-    const changeParams = useCallback(() => {
-        const param = new URLSearchParams(searchParams.toString())
-
-        param.set('major', data.major)
-        param.set('type', tagToEnglish[data.type as KindType])
-        param.set('word', data.searchWord)
+        const param = new URLSearchParams()
+        
+        param.set('major', tmpData?.major || data.major)
+        param.set('type', tagToEnglish[tmpData?.type || data.type])
+        if (tmpData ? tmpData?.searchWord : data.searchWord) {
+            param.set('word', (tmpData ? tmpData?.searchWord || '' : data.searchWord).trim())
+        }
 
         router.push(`application?${param}`)
     }, [searchParams, data])
 
+    const changeData = useCallback((name: 'type' | 'major' | 'searchWord') => (value: string) => {
+        setData(prev => ({ ...prev, [name]: value }))
+        const tmpData = { ...data, [name]: value }
+
+        if (timer.current) {
+            clearInterval(timer.current)
+            timer.current = null
+        }
+
+        timer.current = setInterval(() => {
+            changeParams(tmpData)
+
+            if (timer.current) {
+                clearInterval(timer.current)
+                timer.current = null
+            }
+        }, 900)
+    }, [changeParams, data])
+
     useEffect(() => {
+        const data: ApplicationDataModal = {
+            type: '모든 종류',
+            major: 'Frontend',
+            searchWord: ''
+        }
+
         if (searchParams.has('word')) {
-            changeData('searchWord')(searchParams.get('word') || '')
+            data.searchWord = searchParams.get('word') || ''
         }
         if (searchParams.has('type') && ['Everything', 'Portfolio', 'PersonalStatement', 'Resume'].includes(searchParams.get('type') as string)) {
-            changeData('type')(tagToKorean[searchParams.get('type') as ('Everything' | ApplicationFileType)])
+            data.type = tagToKorean[searchParams.get('type') as ('Everything' | ApplicationFileType)]
         }
         if (searchParams.has('major')) {
-            changeData('major')(searchParams.get('major') as MajorType)
+            data.major = searchParams.get('major') as MajorType
         }
+
+        setData(data)
     }, [searchParams])
 
     return (

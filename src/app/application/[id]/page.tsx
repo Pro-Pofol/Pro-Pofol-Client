@@ -43,9 +43,9 @@ export default function Detail({ params }: { params: { id: number } }) {
             { type: blobData.type }
           )
         )
-        route.refresh()
       })
     }
+    route.refresh()
   }
 
   const MyData = async () => {

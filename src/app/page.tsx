@@ -43,7 +43,7 @@ export default async function Home() {
               </Button>
             </div>
             <div className="flex flex-col gap-4">
-              {tipData.map((item, index) => (
+              {tipData.slice(0, 4).map((item, index) => (
                 <TipBox
                   key={index}
                   date={String(item.created_at)}
