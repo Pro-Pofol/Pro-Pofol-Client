@@ -21,7 +21,7 @@ export default async function Home() {
                 subTitle="최근 사용자 분들이 공유한 지원서에요."
                 icon={<Portfolio size={28} />}
               />
-              <Button kind="blue" size="small">
+              <Button route="/application" kind="blue" size="small">
                 지원서 더보기
               </Button>
             </div>
@@ -38,7 +38,7 @@ export default async function Home() {
                 subTitle="최근 사용자 분들이 공유한 지원서 작성 팁이에요."
                 icon={<Bulb size={28} />}
               />
-              <Button kind="blue" size="small">
+              <Button route="/tip" kind="blue" size="small">
                 지원서 더보기
               </Button>
             </div>

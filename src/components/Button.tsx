@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { ComponentProps, MouseEvent, ReactNode } from 'react'
 
 type ButtonProps = ComponentProps<'button'> & {
@@ -8,6 +9,7 @@ type ButtonProps = ComponentProps<'button'> & {
   disabled?: boolean
   children?: ReactNode
   size?: keyof typeof Size
+  route?: string
   onClick?: (
     event: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>,
   ) => void
@@ -57,16 +59,18 @@ export const Button = ({
   disabled,
   children,
   size,
+  route,
   onClick = () => {},
   ...props
 }: ButtonProps) => {
   const color = ButtonColor[kind][disabled ? 'disabled' : 'enabled']
   const font = Size[size ?? 'medium']
+  const routing = useRouter()
 
   return (
     <button
       className={`select-none w-fit ${color} ${font} ${className ?? ''}`}
-      onClick={onClick}
+      onClick={route ? () => routing.push(route) : onClick}
       disabled={disabled}
       {...props}
     >
