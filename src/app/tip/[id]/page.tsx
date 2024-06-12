@@ -51,6 +51,8 @@ export default function Detail({ params }: { params: { id: number } }) {
     MyData()
   }, [])
 
+  console.log(detailData)
+
   return (
     <>
       {fixModal && detailData !== undefined && (
@@ -115,7 +117,12 @@ export default function Detail({ params }: { params: { id: number } }) {
           </div>
           <div className="bg-gray200 h-[1px]" />
           <div className="w-[100%] break-words pb-[120px]">
-            <div>{detailData?.content}</div>
+            <span
+              className="!text-bodySmall text-gray900"
+              dangerouslySetInnerHTML={{
+                __html: detailData?.content.replaceAll('\n', '<br />') || '',
+              }}
+            ></span>
           </div>
         </article>
       </section>
