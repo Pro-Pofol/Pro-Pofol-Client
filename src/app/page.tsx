@@ -7,7 +7,7 @@ import { TipBoxType } from '@/types'
 export default async function Home() {
   const applicationData =
     (await getRecommend().then((res) => res.data.posts)) || []
-  const tipData: TipBoxType[] = await recommendTip()
+  const tipData: TipBoxType[] = await recommendTip() || []
 
   return (
     <main>

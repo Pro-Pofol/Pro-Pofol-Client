@@ -19,7 +19,7 @@ export const ShowSection = () => {
   }
 
   const getData = async () => {
-    const res: TipBoxType[] = await recommendTip()
+    const res: TipBoxType[] = await recommendTip() || []
     if (orderType === 'first') {
       const a = res
         .sort((a, b) => {
