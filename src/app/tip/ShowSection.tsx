@@ -20,19 +20,28 @@ export const ShowSection = () => {
 
   const getData = async () => {
     const res: TipBoxType[] = await recommendTip()
-    const a = res
-      .sort((a, b) => {
+    if (orderType === 'first') {
+      const a = res
+        .sort((a, b) => {
+          return (
+            new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+          )
+        })
+        .reverse()
+      setData(a)
+    } else {
+      const a = res.sort((a, b) => {
         return (
           new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
         )
       })
-      .reverse()
-    setData(a)
+      setData(a)
+    }
   }
 
   useEffect(() => {
     getData()
-  }, [])
+  }, [orderType])
 
   return (
     <section className="flex flex-col items-center w-full relative mb-[120px]">
