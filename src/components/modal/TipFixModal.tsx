@@ -56,7 +56,7 @@ export const TipFixModal = ({
         toast.success('성공적으로 수정되었습니다!')
         change('')
         click(false)
-        route.push(`/tip/${id}`)
+        route.push(`/tip`)
       })
       .catch(() => {
         toast.error('업로드에 실패했습니다.')
